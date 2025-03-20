@@ -1,0 +1,17 @@
+<resources>
+
+    <string name="app_name">ShopXpress</string>
+
+    <string name="page_first_title">Welcome to shopXpress!</string>
+    <string name="page_first_text">A shopping app that feels like home, every\nexperience curated to delight you.</string>
+    <string name="page_second_title">Create your own wishlists</string>
+    <string name="page_second_text">Customize up to 3 wishlists where you can add\nyour favourite items to.</string>
+    <string name="page_third_title">Shop for your loved ones</string>
+    <string name="page_third_text">Show love and gratitude by having your orders\ndelivered directly to your friends as a present.</string>
+    <string name="page_fourth_title">Alright, let’s shop!</string>
+    <string name="page_fourth_text">To get personalized recommendations based on\nyour shopping interests, hop on our train.</string>
+    <string name="verification_main">We have sent an OTP to your phone number to\nverify your account.</string>
+    <string name="interest_main">Select at least 1 category below that interests you.</string>
+    <string name="interest_minor">This would enable us make personalized recommendation for you.</string>
+    <string name="search_main">What do you want to shop for today?</string>
+</resources>
