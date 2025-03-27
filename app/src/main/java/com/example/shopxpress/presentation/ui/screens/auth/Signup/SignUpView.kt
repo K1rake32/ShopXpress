@@ -29,7 +29,7 @@ import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
 @Composable
 fun SignUpView(
     signViewModel: SignUpViewModel = viewModel(),
-    onVerificationRoute: () -> Unit
+
 ) {
 
     val state by signViewModel.state.collectAsState()
@@ -127,7 +127,7 @@ fun SignUpView(
             modifier = Modifier
                 .padding(horizontal = 25.dp)
                 .fillMaxWidth(),
-            onclick = {onVerificationRoute()},
+            onclick = {},
             text = "Create Account"
         )
 
@@ -148,7 +148,7 @@ fun SignUpView(
 private fun SignUpPreview() {
     
     ShopXpressTheme{
-        SignUpView(signViewModel = SignUpViewModel(), {})
+        SignUpView(signViewModel = SignUpViewModel(),)
     }
     
 }

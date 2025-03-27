@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +14,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -29,13 +33,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.shopxpress.R
+import com.example.shopxpress.presentation.data.RecommendedData
 import com.example.shopxpress.presentation.ui.components.SearchTextField
 import com.example.shopxpress.presentation.ui.components.TextBackButton
 import com.example.shopxpress.presentation.ui.screens.main.home.components.InAppCard
+import com.example.shopxpress.presentation.ui.screens.main.home.components.ItemRecommended
+import com.example.shopxpress.presentation.ui.screens.main.home.components.LocalTwoColumnGridItems
+import com.example.shopxpress.presentation.ui.screens.main.home.components.TwoColumnGridItem
 import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
 
 @Composable
 fun HomeView() {
+
+    val products = listOf(
+        RecommendedData(R.drawable.book_item, "User Story Book", "N6500"),
+    )
 
     Column(
         modifier = Modifier
@@ -164,9 +176,20 @@ fun HomeView() {
 
         }
 
+        ItemRecommended(
+            modifier = Modifier.fillMaxSize(),
+            content = {
+                TwoColumnGridItem {
+
+                }
+            }
+        )
+
     }
 
 }
+
+
 
 @Composable
 @Preview(showBackground = true)

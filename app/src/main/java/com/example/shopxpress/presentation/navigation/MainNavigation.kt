@@ -57,14 +57,11 @@ fun AppNavHost(navController: NavHostController) {
             composable(Screens.SignUp.route) {
                 SignUpView(
                     signViewModel = SignUpViewModel(),
-                    onVerificationRoute = {
-                        navController.navigate(Screens.InterestScreen.route)
-                    }
                 )
             }
 
             composable(Screens.VerificationScreen.route) {
-                VerificationView()
+
             }
 
             composable(Screens.InterestScreen.route) {

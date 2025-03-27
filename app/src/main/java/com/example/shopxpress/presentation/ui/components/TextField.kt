@@ -1,17 +1,25 @@
 package com.example.shopxpress.presentation.ui.components
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.BasicTextField
@@ -33,20 +41,34 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEvent
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.modifier.ModifierLocalModifierNode
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.core.text.isDigitsOnly
 import com.example.shopxpress.R
 import com.example.shopxpress.presentation.ui.screens.auth.Signup.components.MaskVisualTransformation
 import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
+import com.example.shopxpress.presentation.ui.style.color.ShopXpressColors
 import com.example.shopxpress.presentation.ui.style.typography.ShopXpressFont
 import com.example.shopxpress.presentation.ui.style.typography.ShopXpressTypography
 
@@ -210,6 +232,100 @@ fun SearchTextField(
 }
 
 @Composable
+fun PinTextField(
+    number: Int?,
+    focusRequester: FocusRequester,
+    onFocusChanged: (Boolean) -> Unit,
+    onNumberChanged: (Int?) -> Unit,
+    onKeyboardBack: () -> Unit,
+    modifier: Modifier = Modifier,
+    borderColor: Color = ShopXpressTheme.colors.text_20,
+    bcg: Color = ShopXpressTheme.colors.bcg_0,
+    cursorColor: Color = ShopXpressTheme.colors.text_100,
+    textStyle: TextStyle = ShopXpressTheme.typography.title.bold,
+    keyboardType: KeyboardType = KeyboardType.Number
+) {
+
+    val text by remember(number) {
+
+        mutableStateOf(
+            TextFieldValue (
+                text = number?.toString().orEmpty(),
+                selection = TextRange(
+                    index = if(number != null) 1 else 0
+                )
+            )
+        )
+
+    }
+
+    var isFocused by remember {
+        mutableStateOf(false)
+    }
+
+    Box(
+        modifier = Modifier
+            .border(1.dp, borderColor, CircleShape)
+            .background(bcg)
+            .size(70.dp),
+
+        contentAlignment = Alignment.Center
+    ) {
+
+        BasicTextField(
+            value = text,
+            onValueChange = { newText ->
+                val newNumber = newText.text
+                if (newNumber.length <= 1 && newNumber.isDigitsOnly()) {
+                    onNumberChanged(newNumber.toIntOrNull())
+                }
+            },
+            singleLine = true,
+            textStyle = TextStyle(
+                textAlign = TextAlign.Center,
+                fontFamily = FontFamily(Font(R.font.lato_bold)),
+                fontSize = 24.sp,
+                color = cursorColor
+            ),
+
+            keyboardOptions = KeyboardOptions(
+                keyboardType = keyboardType
+            ),
+
+            modifier = Modifier
+                .padding(10.dp)
+                .focusRequester(focusRequester)
+                .onFocusChanged {
+                    isFocused = it.isFocused
+                    onFocusChanged(it.isFocused)
+                }
+                .onKeyEvent { event ->
+                    val didPressDelete =
+                        event.nativeKeyEvent.keyCode == android.view.KeyEvent.KEYCODE_DEL
+                    if (didPressDelete && number == null) {
+                        onKeyboardBack()
+                    }
+                    false
+                },
+            decorationBox =  { innerBox ->
+                innerBox()
+                if(!isFocused && number == null) {
+                    Text(
+                        text = "-",
+                        style = textStyle,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .wrapContentSize()
+                    )
+                }
+            }
+        )
+
+    }
+
+}
+
+@Composable
 @Preview(showBackground = true)
 private fun AuthTextFieldPreview() {
 
@@ -230,6 +346,15 @@ private fun AuthTextFieldPreview() {
                 onValueChange = {},
                 placeholder = "Preview",
                 startIcon = R.drawable.search
+            )
+            
+            PinTextField(
+                number = null,
+                focusRequester = remember {FocusRequester()},
+                onFocusChanged = {},
+                onNumberChanged = {},
+                onKeyboardBack = { /*TODO*/ }
+
             )
 
         }
