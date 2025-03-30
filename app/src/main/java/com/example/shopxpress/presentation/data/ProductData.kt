@@ -1,8 +1,6 @@
 package com.example.shopxpress.presentation.data
 
-import android.service.autofill.ImageTransformation
-
-data class RecommendedData (
+data class ProductData (
     val mainImage: Int,
     val mainText: String,
     val minorText: String

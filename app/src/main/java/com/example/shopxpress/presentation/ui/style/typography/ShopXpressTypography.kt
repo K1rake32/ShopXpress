@@ -21,7 +21,8 @@ data class ShopXpressTypography(
     val button_text: ShopXpressFont,
     val little_text: ShopXpressFont,
     val medium_text: ShopXpressFont,
-    val textField_Text: ShopXpressFont
+    val textField_Text: ShopXpressFont,
+    val minor_text: ShopXpressFont
 
 )
 
@@ -94,6 +95,11 @@ val LocalShopXpres = ShopXpressTypography (
 
     textField_Text = ShopXpressFont(
         fontSize = 14.sp,
+        lineHeight = 16.sp
+    ),
+
+    minor_text = ShopXpressFont(
+        fontSize = 12.sp,
         lineHeight = 16.sp
     )
 )

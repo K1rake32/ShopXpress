@@ -12,25 +12,40 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.shopxpress.R
+import com.example.shopxpress.presentation.shimmer.HomeShimmer
 import com.example.shopxpress.presentation.ui.components.AuthTextField
 import com.example.shopxpress.presentation.ui.components.DefaultButton
 import com.example.shopxpress.presentation.ui.components.DefaultNavBar
+import com.example.shopxpress.presentation.ui.screens.auth.Login.LoginView
 import com.example.shopxpress.presentation.ui.screens.auth.Signup.components.AroundLink
 import com.example.shopxpress.presentation.ui.screens.auth.Signup.ui.SignUpEvent
 import com.example.shopxpress.presentation.ui.screens.auth.Signup.ui.SignUpViewModel
 import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
+import kotlinx.coroutines.delay
 
 @Composable
 fun SignUpView(
     signViewModel: SignUpViewModel = viewModel(),
 
 ) {
+
+    val isLoading by produceState(initialValue = true) {
+        delay(2000)
+        value = false
+    }
+
+    if (isLoading) {
+        HomeShimmer()
+    } else {
+        LoginView()
+    }
 
     val state by signViewModel.state.collectAsState()
 
