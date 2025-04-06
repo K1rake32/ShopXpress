@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class SignUpViewModel : ViewModel() {
 
@@ -15,17 +16,29 @@ class SignUpViewModel : ViewModel() {
     fun onEvent(event: SignUpEvent) {
         when(event) {
             is SignUpEvent.OnEmailChange -> {
-                _state.value = _state.value.copy(email = event.value)
+                _state.update {
+                    it.copy(email = event.value).updateButtonState()
+                }
             }
             is SignUpEvent.OnNumberChange -> {
-                _state.value = _state.value.copy(number = event.value)
+                _state.update {
+                    it.copy(number = event.value).updateButtonState()
+                }
             }
             is SignUpEvent.OnPasswordChange -> {
-                _state.value = _state.value.copy(password = event.value)
+                _state.update {
+                    it.copy(password = event.value).updateButtonState()
+                }
             }
         }
     }
 
-
+    private fun SignUpState.updateButtonState(): SignUpState {
+        return this.copy(
+            isButtonEnabled = email.isNotBlank() &&
+                              password.isNotBlank() &&
+                              number.isNotBlank()
+        )
+    }
 
 }

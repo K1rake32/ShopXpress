@@ -8,7 +8,8 @@ import com.example.shopxpress.presentation.base.BaseState
 data class SignUpState(
     val email: String = "",
     val password: String = "",
-    val number: String = ""
+    val number: String = "",
+    val isButtonEnabled: Boolean = false
 ) : BaseState
 
 sealed interface SignUpEvent: BaseEvent {

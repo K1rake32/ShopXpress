@@ -27,7 +27,11 @@ data class ShopXpressColors(
     val bcg_0: Color,
     val bcg_100: Color,
 
-    val other_0: Color
+    val other_0: Color,
+
+    val bright_0: Color,
+    val bright_10: Color,
+    val bright_20: Color
 
 )
 

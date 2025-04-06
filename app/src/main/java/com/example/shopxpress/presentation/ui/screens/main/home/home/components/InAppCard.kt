@@ -1,4 +1,4 @@
-package com.example.shopxpress.presentation.ui.screens.main.home.components
+package com.example.shopxpress.presentation.ui.screens.main.home.home.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

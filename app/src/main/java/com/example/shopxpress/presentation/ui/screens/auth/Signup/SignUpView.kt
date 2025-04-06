@@ -33,19 +33,8 @@ import kotlinx.coroutines.delay
 @Composable
 fun SignUpView(
     signViewModel: SignUpViewModel = viewModel(),
-
+    navigationVerification: () -> Unit
 ) {
-
-    val isLoading by produceState(initialValue = true) {
-        delay(2000)
-        value = false
-    }
-
-    if (isLoading) {
-        HomeShimmer()
-    } else {
-        LoginView()
-    }
 
     val state by signViewModel.state.collectAsState()
 
@@ -142,7 +131,11 @@ fun SignUpView(
             modifier = Modifier
                 .padding(horizontal = 25.dp)
                 .fillMaxWidth(),
-            onclick = {},
+            onclick = {
+                if(state.isButtonEnabled) {
+                    navigationVerification()
+                }
+            },
             text = "Create Account"
         )
 
@@ -163,7 +156,7 @@ fun SignUpView(
 private fun SignUpPreview() {
     
     ShopXpressTheme{
-        SignUpView(signViewModel = SignUpViewModel(),)
+        SignUpView(signViewModel = SignUpViewModel(),{})
     }
     
 }

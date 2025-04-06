@@ -24,8 +24,11 @@ val lightPalette = ShopXpressColors(
     bcg_0 = Color(0xFFFFFFFF),
     bcg_100 = Color(0xFFF8F7FA),
 
-    other_0 = Color(0xFFD8E2DC)
+    other_0 = Color(0xFFD8E2DC),
 
+    bright_0 = Color(0xFFF3D5E1),
+    bright_10 = Color(0xFFCBCBD4),
+    bright_20 = Color(0xFFC3D6F4)
 
 )
 
@@ -50,5 +53,9 @@ val darkPalette = ShopXpressColors(
     bcg_0 = Color(0xFFFFFFFF),
     bcg_100 = Color(0xFFF8F7FA),
 
-    other_0 = Color(0xFFD8E2DC)
+    other_0 = Color(0xFFD8E2DC),
+
+    bright_0 = Color(0xFFF3D5E1),
+    bright_10 = Color(0xFFCBCBD4),
+    bright_20 = Color(0xFFC3D6F4)
 )

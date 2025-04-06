@@ -1,7 +1,8 @@
-package com.example.shopxpress.presentation.ui.screens.main.home.components
+package com.example.shopxpress.presentation.ui.screens.main.home.home.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -20,19 +21,26 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CardElevation
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -63,8 +71,12 @@ fun ItemRecommended(
                 rowItems.forEach { product ->
                     Card(
                         modifier = Modifier
-                            .weight(1f)
-                            .clip(clip)
+                            .weight(1f),
+                        shape = clip,
+
+                        elevation = CardDefaults.cardElevation(
+                            defaultElevation = 4.dp
+                        )
                     ) {
                         Column { itemContent(product) }
                     }
@@ -81,13 +93,14 @@ fun ItemRecommended(
 fun ProductItem(
     product: ProductData,
     modifier: Modifier = Modifier,
-    onFavoriteClick: () -> Unit
 ) {
 
-    ElevatedCard(
+    var isLiked by remember { mutableStateOf(false)}
+
+    Card(
         modifier = Modifier
-            .height(195.dp)
-            .clip(RoundedCornerShape(5.dp))
+            .height(195.dp),
+        shape = RoundedCornerShape(5.dp)
     ) {
 
         Column(
@@ -103,9 +116,14 @@ fun ProductItem(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Icon(
-                    imageVector = Icons.Default.FavoriteBorder,
+                    imageVector = if(isLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                     contentDescription = "",
-                    modifier = Modifier.align(alignment = Alignment.End)
+                    tint = if(isLiked) Color.Red else Color.Gray,
+                    modifier = Modifier
+                        .align(alignment = Alignment.End)
+                        .clickable {
+                            isLiked = !isLiked
+                        },
                 )
 
                 Image(
@@ -150,11 +168,17 @@ fun TrendItem(
     trendProduct: TrendData
 ) {
 
-    ElevatedCard(
+    var isLiked by remember { mutableStateOf(false)}
+
+    Card(
     modifier = Modifier
         .width(255.dp)
-        .height(275.dp)
-        .padding(end = 15.dp)
+        .height(265.dp)
+        .padding(end = 15.dp),
+
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 4.dp
+        )
     ) {
 
         Column(
@@ -169,9 +193,14 @@ fun TrendItem(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Icon(
-                    imageVector = Icons.Default.FavoriteBorder,
+                    imageVector = if(isLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                     contentDescription = "",
-                    modifier = Modifier.align(alignment = Alignment.End)
+                    tint = if(isLiked) Color.Red else Color.Gray,
+                    modifier = Modifier
+                        .align(alignment = Alignment.End)
+                        .clickable {
+                            isLiked = !isLiked
+                        },
                 )
 
                 Image(
@@ -186,7 +215,8 @@ fun TrendItem(
                     .fillMaxWidth()
                     .background(ShopXpressTheme.colors.bcg_0)
                     .padding(horizontal = 16.dp)
-                    .padding(vertical = 12.dp),
+                    .padding(vertical = 12.dp)
+                    .weight(1f),
 
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
@@ -206,13 +236,24 @@ fun TrendItem(
 
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
+
+                    Icon(
+                        painter = painterResource(id = R.drawable.star),
+                        contentDescription = "star",
+                        modifier = Modifier
+                            .padding(end = 4.dp)
+                    )
 
                     Text(
                         text = trendProduct.reviews,
                         style = ShopXpressTheme.typography.minor_text.bold,
-                        color = ShopXpressTheme.colors.text_80
+                        color = ShopXpressTheme.colors.text_80,
+                        modifier = Modifier
+                            .padding(end = 30.dp)
                     )
 
                     Text(

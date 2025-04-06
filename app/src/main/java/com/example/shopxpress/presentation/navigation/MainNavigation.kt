@@ -3,21 +3,17 @@ package com.example.shopxpress.presentation.navigation
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.shopxpress.presentation.shimmer.HomeShimmer
+import com.example.shopxpress.presentation.ui.screens.auth.interest.InterestView
 import com.example.shopxpress.presentation.ui.screens.auth.Signup.SignUpView
 import com.example.shopxpress.presentation.ui.screens.auth.Signup.ui.SignUpViewModel
-import com.example.shopxpress.presentation.ui.screens.auth.interest.InterestView
 import com.example.shopxpress.presentation.ui.screens.auth.verification.VerificationView
-import com.example.shopxpress.presentation.ui.screens.main.home.HomeScreen
-import com.example.shopxpress.presentation.ui.screens.main.home.HomeView
+import com.example.shopxpress.presentation.ui.screens.main.home.home.HomeScreen
 import com.example.shopxpress.presentation.ui.screens.onboarding.ui.FinalOnboarding
 import com.example.shopxpress.presentation.ui.screens.onboarding.ui.OnboardingScreen
-import kotlinx.coroutines.delay
 
 sealed class Screens(val route: String) {
 
@@ -41,7 +37,7 @@ fun AppNavHost(navController: NavHostController) {
 
         NavHost(
             navController = navController,
-            startDestination = Screens.HomeView.route,
+            startDestination = Screens.Onboarding.route,
             modifier = Modifier.padding(innerPadding)
         ) {
 
@@ -64,11 +60,14 @@ fun AppNavHost(navController: NavHostController) {
             composable(Screens.SignUp.route) {
                 SignUpView(
                     signViewModel = SignUpViewModel(),
+                    navigationVerification = {
+                        navController.navigate(Screens.VerificationScreen.route)
+                    }
                 )
             }
 
             composable(Screens.VerificationScreen.route) {
-
+                VerificationView()
             }
 
             composable(Screens.InterestScreen.route) {

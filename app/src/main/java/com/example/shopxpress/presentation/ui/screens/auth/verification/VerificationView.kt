@@ -40,10 +40,26 @@ import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
 
 @Composable
 fun VerificationView(
-    state: VerificationState,
-    onAction: (OtpAction) -> Unit,
-    focusRequesters: List<FocusRequester>
+    viewModel: VerificationViewModel = viewModel(),
+    focusRequesters: List<FocusRequester> = remember { List(4) { FocusRequester() } }
 ) {
+
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    LaunchedEffect(state.focusedIndex) {
+        state.focusedIndex?.let { index ->
+            focusRequesters.getOrNull(index)?.requestFocus()
+        }
+    }
+
+    LaunchedEffect(state.code) {
+        if (state.code.none { it == null }) {
+            focusManager.clearFocus()
+            keyboardController?.hide()
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -88,14 +104,14 @@ fun VerificationView(
                     focusRequester = focusRequesters[index],
                     onFocusChanged = { isFocused ->
                          if(isFocused) {
-                             onAction(OtpAction.OnChangedFieldFocused(index))
+                             viewModel.onAction(OtpAction.OnChangedFieldFocused(index))
                          }
                     },
                     onNumberChanged = { newNumber ->
-                        onAction(OtpAction.OnEnterNumber(newNumber, index))
+                        viewModel.onAction(OtpAction.OnEnterNumber(newNumber, index))
                     },
                     onKeyboardBack = {
-                        onAction(OtpAction.OnKeyboardBack)
+                        viewModel.onAction(OtpAction.OnKeyboardBack)
                     },
 
                     modifier = Modifier
@@ -157,22 +173,6 @@ private fun VerificationViewPreview() {
         }
     }
 
-    ShopXpressTheme {
-        VerificationView(
-            state = state,
-            onAction = { action ->
-              when(action) {
-                  is OtpAction.OnEnterNumber -> {
-                      if (action.number != null) {
-                          focusRequester[action.index].freeFocus()
-                      }
-                  }
-                  else -> Unit
-              }
-                viewModel.onAction(action)
-            },
-            focusRequesters = focusRequester
-        )
-    }
+
 
 }

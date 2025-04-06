@@ -1,4 +1,4 @@
-package com.example.shopxpress.presentation.ui.screens.main.home
+package com.example.shopxpress.presentation.ui.screens.main.home.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -7,10 +7,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,24 +18,14 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.produceState
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -49,14 +37,12 @@ import com.example.shopxpress.presentation.data.TrendData
 import com.example.shopxpress.presentation.shimmer.HomeShimmer
 import com.example.shopxpress.presentation.ui.components.SearchTextField
 import com.example.shopxpress.presentation.ui.components.TextBackButton
-import com.example.shopxpress.presentation.ui.screens.main.home.components.InAppCard
-import com.example.shopxpress.presentation.ui.screens.main.home.components.ItemRecommended
-import com.example.shopxpress.presentation.ui.screens.main.home.components.ProductItem
-import com.example.shopxpress.presentation.ui.screens.main.home.components.TrendItem
-import com.example.shopxpress.presentation.ui.screens.main.home.ui.HomeViewModel
+import com.example.shopxpress.presentation.ui.screens.main.home.home.components.InAppCard
+import com.example.shopxpress.presentation.ui.screens.main.home.home.components.ItemRecommended
+import com.example.shopxpress.presentation.ui.screens.main.home.home.components.ProductItem
+import com.example.shopxpress.presentation.ui.screens.main.home.home.components.TrendItem
+import com.example.shopxpress.presentation.ui.screens.main.home.home.ui.HomeViewModel
 import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 
 @Composable
@@ -80,7 +66,7 @@ fun HomeScreen(
 @Composable
 fun HomeView(
     products: List<ProductData>,
-    trends: List<TrendData>
+    trends: List<TrendData>,
 ) {
 
     LazyColumn(
@@ -223,7 +209,9 @@ fun HomeView(
                     items = products.take(6),
                 ) { product ->
 
-                    ProductItem(product = product) {}
+                    ProductItem(
+                        product = product,
+                    )
                 }
 
             }
@@ -252,7 +240,7 @@ fun HomeView(
                 items = products.drop(6).take(6)
             ) { product ->
 
-                ProductItem(product = product) {}
+                ProductItem(product = product)
 
             }
 
@@ -268,9 +256,14 @@ fun HomeView(
 @Preview(showBackground = true)
 private fun HomeViewPreview() {
 
+    val viewModel = HomeViewModel()
+
+    val products = viewModel.products
+    val trends = viewModel.trend
+
     ShopXpressTheme {
 
-
+        HomeView(products = products, trends = trends)
         
     }
 

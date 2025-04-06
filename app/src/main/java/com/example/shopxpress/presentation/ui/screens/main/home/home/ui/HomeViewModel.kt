@@ -1,4 +1,4 @@
-package com.example.shopxpress.presentation.ui.screens.main.home.ui
+package com.example.shopxpress.presentation.ui.screens.main.home.home.ui
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
