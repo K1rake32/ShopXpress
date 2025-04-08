@@ -37,7 +37,7 @@ fun AppNavHost(navController: NavHostController) {
 
         NavHost(
             navController = navController,
-            startDestination = Screens.Onboarding.route,
+            startDestination = Screens.HomeView.route,
             modifier = Modifier.padding(innerPadding)
         ) {
 

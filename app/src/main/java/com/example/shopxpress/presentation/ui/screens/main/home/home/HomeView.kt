@@ -14,8 +14,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Icon
@@ -69,17 +71,17 @@ fun HomeView(
     trends: List<TrendData>,
 ) {
 
-    LazyColumn(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 24.dp)
             .padding(top = 12.dp)
+            .verticalScroll(rememberScrollState())
             .background(ShopXpressTheme.colors.bcg_0),
 
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
 
-        item{
 
             Row(
                 modifier = Modifier
@@ -129,9 +131,6 @@ fun HomeView(
 
             }
 
-        }
-
-        item {
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -167,18 +166,14 @@ fun HomeView(
                 }
 
             }
-        }
 
-        item {
             InAppCard(
                 image = R.drawable.group_dress,
                 upText = "Save Up to",
                 middleText = "25% off",
                 bottomText = "Men Fashion Items Now!!"
             )
-        }
 
-        item {
 
             Column {
 
@@ -216,9 +211,7 @@ fun HomeView(
 
             }
 
-        }
 
-        item {
 
             LazyRow(
                 modifier = Modifier.fillMaxWidth()
@@ -232,9 +225,7 @@ fun HomeView(
 
             }
 
-        }
 
-        item {
 
             ItemRecommended(
                 items = products.drop(6).take(6)
@@ -244,7 +235,7 @@ fun HomeView(
 
             }
 
-        }
+
 
     }
 
