@@ -68,13 +68,45 @@ fun ShimmerGridItem(brush: Brush) {
             .padding(horizontal = 24.dp)
             .padding(top = 12.dp)
     ) {
-            
-        Box(
+
+        Row(
             modifier = Modifier
-                .size(50.dp)
-                .clip(CircleShape)
-                .background(brush)
-        )
+                .fillMaxWidth(),
+
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Box(
+                    modifier = Modifier
+                        .size(50.dp)
+                        .clip(CircleShape)
+                        .background(brush)
+                )
+
+                Spacer(modifier = Modifier.width(14.dp))
+
+                Box(
+                    modifier = Modifier
+                        .height(23.dp)
+                        .width(106.dp)
+                        .clip(RoundedCornerShape(15.dp))
+                        .background(brush)
+                )
+
+            }
+
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(RoundedCornerShape(18.dp))
+                    .background(brush)
+            )
+
+        }
 
         Row(
             modifier = Modifier
@@ -108,7 +140,9 @@ fun ShimmerGridItem(brush: Brush) {
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        Column {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(20.dp)
+        ) {
 
             Row(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -131,7 +165,27 @@ fun ShimmerGridItem(brush: Brush) {
                 )
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+
+                Box(
+                    modifier = Modifier
+                        .width(165.dp)
+                        .height(192.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(brush)
+                )
+
+                Box(
+                    modifier = Modifier
+                        .width(165.dp)
+                        .height(192.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(brush)
+                )
+
+            }
 
             Row(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)

@@ -28,13 +28,13 @@ fun DefaultNavBar(
     text: String,
     background: Color = ShopXpressTheme.colors.bcg_0,
     style: TextStyle = ShopXpressTheme.typography.navigation_text.extraBold,
-    color: Color = ShopXpressTheme.colors.text_100
+    color: Color = ShopXpressTheme.colors.text_100,
+    modifier: Modifier = Modifier
 ) {
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(background)
     ) {
 
         Row(

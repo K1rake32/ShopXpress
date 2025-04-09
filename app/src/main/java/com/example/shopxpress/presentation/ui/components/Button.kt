@@ -3,12 +3,19 @@ package com.example.shopxpress.presentation.ui.components
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -16,9 +23,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.shopxpress.R
 import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
 import org.w3c.dom.Text
 
@@ -83,6 +92,7 @@ fun OutlinedDefaultButton(
     outlinedColor: Color = ShopXpressTheme.colors.primary,
     modifier: Modifier = Modifier,
     style: TextStyle = ShopXpressTheme.typography.button_text.bold,
+    isImage: Boolean = false
 ) {
 
     OutlinedButton(
@@ -91,13 +101,32 @@ fun OutlinedDefaultButton(
         modifier = modifier
     ) {
 
-        Text(
-            modifier = Modifier
-                .padding(vertical = 10.dp),
-            text = text,
-            style = style,
-            color = outlinedColor
-        )
+        if(isImage) {
+
+            Box(
+                modifier = Modifier
+                    .padding(vertical = 7.7.dp)
+
+            ) {
+                Icon(
+                    imageVector = Icons.Default.FavoriteBorder,
+                    contentDescription = "favorite",
+                    tint = outlinedColor,
+                    modifier = Modifier
+                        .size(30.dp)
+                )
+            }
+        } else {
+
+            Text(
+                modifier = Modifier
+                    .padding(vertical = 10.dp),
+                text = text,
+                style = style,
+                color = outlinedColor
+            )
+
+        }
 
     }
 
@@ -131,6 +160,12 @@ private fun ButtonPreview() {
                 text = "Preview",
                 style = ShopXpressTheme.typography.main_text.bold,
                 color = ShopXpressTheme.colors.text_100
+            )
+
+            OutlinedDefaultButton(
+                onclick = { /*TODO*/ },
+                text = "",
+                isImage = true
             )
 
         }

@@ -49,7 +49,8 @@ import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = viewModel()
+    viewModel: HomeViewModel = viewModel(),
+    toDetail: () -> Unit
 ) {
 
     val products = viewModel.products
@@ -60,7 +61,7 @@ fun HomeScreen(
     if(isLoading) {
         HomeShimmer()
     } else {
-        HomeView(products, trends)
+        HomeView(products, trends, {toDetail()})
     }
 
 }
@@ -69,6 +70,7 @@ fun HomeScreen(
 fun HomeView(
     products: List<ProductData>,
     trends: List<TrendData>,
+    clickable: () -> Unit
 ) {
 
     Column(
@@ -206,12 +208,11 @@ fun HomeView(
 
                     ProductItem(
                         product = product,
+                        clickable = {clickable()}
                     )
                 }
 
             }
-
-
 
             LazyRow(
                 modifier = Modifier.fillMaxWidth()
@@ -225,18 +226,16 @@ fun HomeView(
 
             }
 
-
-
             ItemRecommended(
                 items = products.drop(6).take(6)
             ) { product ->
 
-                ProductItem(product = product)
+                ProductItem(
+                    product = product,
+                    clickable = {clickable()}
+                )
 
             }
-
-
-
     }
 
 }
@@ -254,7 +253,7 @@ private fun HomeViewPreview() {
 
     ShopXpressTheme {
 
-        HomeView(products = products, trends = trends)
+        HomeView(products = products, trends = trends, {})
         
     }
 

@@ -8,18 +8,21 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.shopxpress.R
 import com.example.shopxpress.presentation.data.ReviewsData
-import com.example.shopxpress.presentation.ui.screens.main.home.detail.components.ReviewsProduct
+import com.example.shopxpress.presentation.data.TrendData
 import com.example.shopxpress.presentation.ui.style.string.Strings
 import kotlinx.coroutines.launch
 
 class DetailProductViewModel: ViewModel() {
     private val _reviews = mutableStateListOf<ReviewsData>()
+    private val _trends = mutableStateListOf<TrendData>()
 
     val reviews: List<ReviewsData> get() = _reviews
+    val trends: List<TrendData> get() = _trends
 
     init {
         viewModelScope.launch {
             loadReviews()
+            loadTrends()
         }
     }
     private fun loadReviews() {
@@ -89,6 +92,19 @@ class DetailProductViewModel: ViewModel() {
                     stars = 5
                 ),
 
+            )
+        )
+    }
+
+    private fun loadTrends() {
+        _trends.addAll(
+            listOf(
+                TrendData(R.drawable.book_item,"H&M Shirt", "N13,500", "5.0", "Fashion"),
+                TrendData(R.drawable.book_item,"H&M Shirt", "N13,500", "5.0", "Fashion"),
+                TrendData(R.drawable.book_item,"H&M Shirt", "N13,500", "5.0", "Fashion"),
+                TrendData(R.drawable.book_item,"H&M Shirt", "N13,500", "5.0", "Fashion"),
+                TrendData(R.drawable.book_item,"H&M Shirt", "N13,500", "5.0", "Fashion"),
+                TrendData(R.drawable.book_item,"H&M Shirt", "N13,500", "5.0", "Fashion"),
             )
         )
     }

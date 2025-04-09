@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Star
@@ -21,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,26 +32,6 @@ import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.shopxpress.R
 import com.example.shopxpress.presentation.data.ReviewsData
-
-@Composable
-fun ReviewsProduct(
-    viewModel: DetailProductViewModel = viewModel()
-) {
-
-    val reviews = viewModel.reviews
-
-    LazyColumn(
-        modifier = Modifier
-    ) {
-
-        items(reviews) { reviews ->
-            ReviewsItem(
-                reviews = reviews
-            )
-        }
-
-    }
-}
 
 @Composable
 fun ReviewsItem(
@@ -79,10 +61,16 @@ fun ReviewsItem(
                     horizontalArrangement = Arrangement.spacedBy(17.dp)
                 ) {
 
-                    Image(
-                        painter = painterResource(reviews.avatar),
-                        contentDescription = "avatar"
-                    )
+                    Box(
+                        modifier = Modifier
+                            .clip(CircleShape)
+                    ) {
+                        Image(
+                            painter = painterResource(reviews.avatar),
+                            contentDescription = "avatar",
+                            modifier = Modifier
+                        )
+                    }
 
                     Column {
                         Text(

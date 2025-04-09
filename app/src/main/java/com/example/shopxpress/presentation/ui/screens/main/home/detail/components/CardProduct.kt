@@ -16,9 +16,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Star
@@ -46,7 +49,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.shopxpress.R
+import com.example.shopxpress.presentation.ui.components.DefaultButton
+import com.example.shopxpress.presentation.ui.components.OutlinedDefaultButton
 import com.example.shopxpress.presentation.ui.screens.main.home.detail.ui.DetailProductViewModel
+import com.example.shopxpress.presentation.ui.screens.main.home.home.components.TrendItem
 import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
 import org.w3c.dom.Text
 
@@ -70,6 +76,7 @@ fun CardProduct(
     var selectedColor by remember { mutableStateOf(colorFirst) }
 
     val reviews = viewModel.reviews
+    val trends = viewModel.trends
 
     ElevatedCard(
         modifier = Modifier
@@ -138,7 +145,8 @@ fun CardProduct(
                     .padding(bottom = 8.dp)
             )
 
-            SizeProduct()
+            SizeProduct(
+            )
 
             Spacer(modifier = Modifier.padding(bottom = 20.dp))
 
@@ -166,18 +174,63 @@ fun CardProduct(
                     .padding(bottom = 8.dp)
             )
 
-                LazyColumn(
+                Column(
                     modifier = Modifier
                         .fillMaxSize()
                 ) {
 
-                    items(reviews) { reviews ->
-                        ReviewsItem(
-                            reviews = reviews
-                        )
+                    reviews.forEach{ review ->
+                        ReviewsItem(reviews = review)
                     }
 
                 }
+
+            Spacer(modifier = Modifier.height(36.dp))
+
+            Text(
+                text = "People also bought",
+                style = ShopXpressTheme.typography.main_text.bold,
+                color = ShopXpressTheme.colors.text_80,
+                modifier = Modifier.padding(bottom = 20.dp)
+            )
+
+            LazyRow(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+
+                items(trends) { trend ->
+                    TrendItem(trendProduct = trend)
+                }
+
+            }
+
+            Spacer(modifier = Modifier.height(21.dp))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+
+                OutlinedDefaultButton(
+                    onclick = { /*TODO*/ },
+                    text = "",
+                    modifier = Modifier
+                        .weight(0.35f),
+                    isImage = true
+                )
+
+                Spacer(modifier = Modifier.width(17.dp))
+
+                DefaultButton(
+                    onclick = { /*TODO*/ },
+                    text = "Add to cart",
+                    modifier = Modifier
+                        .weight(0.65f),
+
+                )
+
+            }
+
         }
 
     }
@@ -224,8 +277,12 @@ fun ColorDots(
 
 @Composable
 private fun SizeProduct(
-    sizes: List<String> = listOf("S", "M", "L", "XL", "XXL")
+    sizes: List<String> = listOf("S", "M", "L", "XL", "XXL"),
 ) {
+
+    var selectedSize by remember { mutableStateOf<String?>(null) }
+
+
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -233,10 +290,20 @@ private fun SizeProduct(
         horizontalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         sizes.forEach { size ->
+
+            val isSelected = size == selectedSize
+
             Box(
                 modifier = Modifier
                     .size(44.dp)
-                    .border(1.dp, ShopXpressTheme.colors.text_40),
+                    .border(1.dp, ShopXpressTheme.colors.text_40)
+                    .background(
+                        if (isSelected) ShopXpressTheme.colors.accent_100
+                        else ShopXpressTheme.colors.bcg_0
+                    )
+                    .clickable {
+                        selectedSize = size
+                    },
 
                 contentAlignment = Alignment.Center
             ) {

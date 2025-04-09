@@ -35,7 +35,9 @@ fun DetailProductView() {
 
             DefaultNavBar(
                 image = R.drawable.icon_back,
-                text = ""
+                text = "",
+                modifier = Modifier
+                    .background(ShopXpressTheme.colors.bcg_100)
             )
 
             Image(

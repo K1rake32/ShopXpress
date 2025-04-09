@@ -11,6 +11,7 @@ import com.example.shopxpress.presentation.ui.screens.auth.interest.InterestView
 import com.example.shopxpress.presentation.ui.screens.auth.Signup.SignUpView
 import com.example.shopxpress.presentation.ui.screens.auth.Signup.ui.SignUpViewModel
 import com.example.shopxpress.presentation.ui.screens.auth.verification.VerificationView
+import com.example.shopxpress.presentation.ui.screens.main.home.detail.DetailProductView
 import com.example.shopxpress.presentation.ui.screens.main.home.home.HomeScreen
 import com.example.shopxpress.presentation.ui.screens.onboarding.ui.FinalOnboarding
 import com.example.shopxpress.presentation.ui.screens.onboarding.ui.OnboardingScreen
@@ -26,6 +27,8 @@ sealed class Screens(val route: String) {
     object InterestScreen: Screens("interest_screen")
 
     object HomeView: Screens("home_screen")
+
+    object DetailProduct: Screens("detail_product")
 
 
 }
@@ -76,7 +79,15 @@ fun AppNavHost(navController: NavHostController) {
 
 
             composable(Screens.HomeView.route) {
-                HomeScreen()
+                HomeScreen(
+                    toDetail = {
+                        navController.navigate(Screens.DetailProduct.route)
+                    }
+                )
+            }
+
+            composable(Screens.DetailProduct.route) {
+                DetailProductView()
             }
         }
 

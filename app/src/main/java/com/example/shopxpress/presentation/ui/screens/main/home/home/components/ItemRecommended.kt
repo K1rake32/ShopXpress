@@ -24,6 +24,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
 import androidx.compose.material3.ElevatedCard
@@ -93,14 +94,21 @@ fun ItemRecommended(
 fun ProductItem(
     product: ProductData,
     modifier: Modifier = Modifier,
+    clickable: () -> Unit,
+    bcg: Color = ShopXpressTheme.colors.bcg_100
 ) {
 
     var isLiked by remember { mutableStateOf(false)}
 
     Card(
         modifier = Modifier
-            .height(195.dp),
-        shape = RoundedCornerShape(5.dp)
+            .height(195.dp)
+            .clickable { clickable() },
+        shape = RoundedCornerShape(5.dp),
+
+        colors = CardDefaults.cardColors(
+            containerColor = bcg
+        )
     ) {
 
         Column(
@@ -165,7 +173,8 @@ fun ProductItem(
 
 @Composable
 fun TrendItem(
-    trendProduct: TrendData
+    trendProduct: TrendData,
+    bcg: Color = ShopXpressTheme.colors.bcg_100
 ) {
 
     var isLiked by remember { mutableStateOf(false)}
@@ -178,6 +187,10 @@ fun TrendItem(
 
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
+        ),
+
+        colors = CardDefaults.cardColors(
+            containerColor = bcg
         )
     ) {
 
