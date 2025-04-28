@@ -1,45 +1,32 @@
-package com.example.shopxpress.presentation.ui.screens.main.home.home.ui
+package com.example.shopxpress.presentation.ui.screens.main.home.resultSearch.ui
 
-import androidx.compose.runtime.State
+import android.content.Context
+import android.view.View
+import androidx.annotation.RequiresApi
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.shopxpress.R
 import com.example.shopxpress.presentation.data.ProductData
-import com.example.shopxpress.presentation.data.TrendData
-import com.example.shopxpress.presentation.ui.screens.auth.Signup.ui.SignUpState
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import com.example.shopxpress.storage.DataStoreManager
+import com.example.shopxpress.storage.data.SettingsData
 import kotlinx.coroutines.launch
+class ResultSearchViewModel: ViewModel() {
 
-class HomeViewModel : ViewModel() {
-    private val _products = mutableListOf <ProductData>()
-    private val _trends = mutableListOf<TrendData> ()
-    private val _isLoading = MutableStateFlow(true)
-    private val _state = MutableStateFlow(HomeState())
-
-
+    private val _products = mutableListOf<ProductData>()
     val products: List<ProductData> get() = _products
-    val trend: List<TrendData> get() = _trends
-    val isLoading: StateFlow<Boolean> = _isLoading
-    val state: StateFlow<HomeState> = _state.asStateFlow()
-
     init {
         viewModelScope.launch {
 
             loadProducts()
-            loadTrends()
-
-            delay(1000)
-            _isLoading.value = false
-
         }
     }
+
 
     private fun loadProducts() {
         _products.addAll(listOf(
@@ -66,16 +53,5 @@ class HomeViewModel : ViewModel() {
         ))
     }
 
-    private fun loadTrends() {
-        _trends.addAll(listOf(
-            TrendData(R.drawable.book_item,"H&M Shirt", "N13,500", "5.0", "Fashion"),
-            TrendData(R.drawable.book_item,"H&M Shirt", "N13,500", "5.0", "Fashion"),
-            TrendData(R.drawable.book_item,"H&M Shirt", "N13,500", "5.0", "Fashion"),
-            TrendData(R.drawable.book_item,"H&M Shirt", "N13,500", "5.0", "Fashion"),
-            TrendData(R.drawable.book_item,"H&M Shirt", "N13,500", "5.0", "Fashion"),
-            TrendData(R.drawable.book_item,"H&M Shirt", "N13,500", "5.0", "Fashion"),
-        ))
-    }
-
-
 }
+

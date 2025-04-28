@@ -15,18 +15,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Star
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
@@ -41,7 +38,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
@@ -54,7 +50,6 @@ import com.example.shopxpress.presentation.ui.components.OutlinedDefaultButton
 import com.example.shopxpress.presentation.ui.screens.main.home.detail.ui.DetailProductViewModel
 import com.example.shopxpress.presentation.ui.screens.main.home.home.components.TrendItem
 import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
-import org.w3c.dom.Text
 
 @Composable
 fun CardProduct(
@@ -77,6 +72,8 @@ fun CardProduct(
 
     val reviews = viewModel.reviews
     val trends = viewModel.trends
+
+    var isLiked by remember { mutableStateOf(false)}
 
     ElevatedCard(
         modifier = Modifier
@@ -199,7 +196,7 @@ fun CardProduct(
             ) {
 
                 items(trends) { trend ->
-                    TrendItem(trendProduct = trend)
+                    TrendItem(trendProduct = trend, clickable = {})
                 }
 
             }
@@ -212,11 +209,12 @@ fun CardProduct(
             ) {
 
                 OutlinedDefaultButton(
-                    onclick = { /*TODO*/ },
+                    onclick = {isLiked = !isLiked},
                     text = "",
                     modifier = Modifier
                         .weight(0.35f),
-                    isImage = true
+                    isImage = true,
+                    icon = if(isLiked) Icons.Default.Favorite else Icons.Outlined.FavoriteBorder
                 )
 
                 Spacer(modifier = Modifier.width(17.dp))

@@ -94,7 +94,7 @@ fun ItemRecommended(
 fun ProductItem(
     product: ProductData,
     modifier: Modifier = Modifier,
-    clickable: () -> Unit,
+    clickable: (ProductData) -> Unit,
     bcg: Color = ShopXpressTheme.colors.bcg_100
 ) {
 
@@ -103,7 +103,7 @@ fun ProductItem(
     Card(
         modifier = Modifier
             .height(195.dp)
-            .clickable { clickable() },
+            .clickable { clickable(product) },
         shape = RoundedCornerShape(5.dp),
 
         colors = CardDefaults.cardColors(
@@ -174,7 +174,8 @@ fun ProductItem(
 @Composable
 fun TrendItem(
     trendProduct: TrendData,
-    bcg: Color = ShopXpressTheme.colors.bcg_100
+    bcg: Color = ShopXpressTheme.colors.bcg_100,
+    clickable: (TrendData) -> Unit
 ) {
 
     var isLiked by remember { mutableStateOf(false)}
@@ -183,7 +184,8 @@ fun TrendItem(
     modifier = Modifier
         .width(255.dp)
         .height(265.dp)
-        .padding(end = 15.dp),
+        .padding(end = 15.dp)
+        .clickable { clickable(trendProduct) },
 
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
@@ -298,6 +300,6 @@ val previewTrendData = TrendData(
 @Preview
 private fun ItemPreview() {
 
-    TrendItem(trendProduct = previewTrendData)
+
 
 }

@@ -1,4 +1,4 @@
-package com.example.shopxpress.presentation.shimmer
+package com.example.shopxpress.presentation.shimmer.home
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloat
@@ -61,7 +61,7 @@ fun HomeShimmer() {
 }
 
 @Composable
-fun ShimmerGridItem(brush: Brush) {
+private fun ShimmerGridItem(brush: Brush) {
 
     Column(
         modifier = Modifier

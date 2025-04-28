@@ -5,6 +5,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,10 +16,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
@@ -30,7 +34,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -42,6 +49,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Brush
@@ -63,6 +71,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import androidx.core.text.isDigitsOnly
 import com.example.shopxpress.R
@@ -71,6 +80,7 @@ import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
 import com.example.shopxpress.presentation.ui.style.color.ShopXpressColors
 import com.example.shopxpress.presentation.ui.style.typography.ShopXpressFont
 import com.example.shopxpress.presentation.ui.style.typography.ShopXpressTypography
+import com.example.shopxpress.util.SearchObject
 
 @Composable
 fun AuthTextField(
@@ -184,49 +194,44 @@ fun SearchTextField(
     label: String = "",
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    keyboardActions: KeyboardActions = KeyboardActions.Default
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
 ) {
 
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = Modifier,
+
+        modifier = modifier,
+
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedContainerColor = bcg,
+            unfocusedContainerColor = bcg,
+            unfocusedBorderColor = borderColor,
+            focusedBorderColor = borderColor,
+        ),
 
         placeholder = {
-
             Text(
                 text = placeholder,
                 style = styleText,
                 color = textColor
             )
-
-        },
-        
-        shape = shape,
-
-        colors = OutlinedTextFieldDefaults.colors(
-            cursorColor = cursorColor,
-            focusedBorderColor = borderColor,
-            unfocusedBorderColor = borderColor,
-            focusedContainerColor = bcg,
-            unfocusedContainerColor = bcg
-        ),
-
-        leadingIcon = {
-
-            Icon(
-                painter = painterResource(id = startIcon),
-                contentDescription = "search"
-            )
-
         },
 
         visualTransformation = visualTransformation,
-
         keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
 
-        keyboardActions = keyboardActions
+        leadingIcon = {
+            Icon(
+                painter = painterResource(id = startIcon),
+                contentDescription = "start_icon",
+            )
+        },
 
+        shape = shape,
+
+        singleLine = true
     )
 
 }
@@ -341,12 +346,7 @@ private fun AuthTextFieldPreview() {
                 label = "Preview"
             )
 
-            SearchTextField(
-                value = text,
-                onValueChange = {},
-                placeholder = "Preview",
-                startIcon = R.drawable.search
-            )
+
             
             PinTextField(
                 number = null,

@@ -3,15 +3,18 @@ package com.example.shopxpress.presentation.ui.screens.main.home.home
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -33,16 +36,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.shopxpress.R
 import com.example.shopxpress.presentation.data.ProductData
 import com.example.shopxpress.presentation.data.TrendData
-import com.example.shopxpress.presentation.shimmer.HomeShimmer
+import com.example.shopxpress.presentation.navigation.Screens
+import com.example.shopxpress.presentation.shimmer.home.HomeShimmer
 import com.example.shopxpress.presentation.ui.components.SearchTextField
 import com.example.shopxpress.presentation.ui.components.TextBackButton
 import com.example.shopxpress.presentation.ui.screens.main.home.home.components.InAppCard
 import com.example.shopxpress.presentation.ui.screens.main.home.home.components.ItemRecommended
 import com.example.shopxpress.presentation.ui.screens.main.home.home.components.ProductItem
 import com.example.shopxpress.presentation.ui.screens.main.home.home.components.TrendItem
+import com.example.shopxpress.presentation.ui.screens.main.home.home.ui.HomeEvent
 import com.example.shopxpress.presentation.ui.screens.main.home.home.ui.HomeViewModel
 import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
 
@@ -50,7 +58,9 @@ import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = viewModel(),
-    toDetail: () -> Unit
+    toDetail: (Int) -> Unit,
+    toSearch: () -> Unit,
+    navController: NavHostController
 ) {
 
     val products = viewModel.products
@@ -61,7 +71,7 @@ fun HomeScreen(
     if(isLoading) {
         HomeShimmer()
     } else {
-        HomeView(products, trends, {toDetail()})
+        HomeView(products, trends, navController = navController, onSearch = {toSearch()})
     }
 
 }
@@ -70,7 +80,9 @@ fun HomeScreen(
 fun HomeView(
     products: List<ProductData>,
     trends: List<TrendData>,
-    clickable: () -> Unit
+    navController: NavHostController,
+    homeViewModel: HomeViewModel = viewModel(),
+    onSearch: () -> Unit
 ) {
 
     Column(
@@ -141,19 +153,48 @@ fun HomeView(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
 
-                SearchTextField(
-                    modifier = Modifier
-                        .weight(0.3f),
-                    value = "",
-                    onValueChange = {},
-                    startIcon = R.drawable.search,
-                    placeholder = stringResource(id = R.string.search_main)
-                )
 
                 Box(
                     modifier = Modifier
-                        .background(ShopXpressTheme.colors.bcg_100)
+                        .weight(0.3f)
+                        .border(1.dp, ShopXpressTheme.colors.text_20, RoundedCornerShape(15.dp))
+                        .background(
+                            color = ShopXpressTheme.colors.bcg_100,
+                            shape = RoundedCornerShape(18.dp)
+                        )
+                        .clickable { onSearch() }
+                ) {
+
+                    Row(
+                        modifier = Modifier
+                            .padding(vertical = 16.dp, horizontal = 15.dp)
+                    ) {
+
+                        Icon(
+                            painter = painterResource(id = R.drawable.search),
+                            contentDescription = "search"
+                        )
+
+                        Spacer(modifier = Modifier.width(10.dp))
+
+                        Text(
+                            text = "What do you want to shop for today?",
+                            style = ShopXpressTheme.typography.textField_Text.regular,
+                            color = ShopXpressTheme.colors.text_40,
+                            modifier = Modifier
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.width(14.dp))
+
+                Box(
+                    modifier = Modifier
                         .border(1.dp, ShopXpressTheme.colors.text_20, RoundedCornerShape(18.dp))
+                        .background(
+                            color = ShopXpressTheme.colors.bcg_100,
+                            shape = RoundedCornerShape(18.dp)
+                        )
                 ) {
 
                     Icon(
@@ -208,7 +249,10 @@ fun HomeView(
 
                     ProductItem(
                         product = product,
-                        clickable = {clickable()}
+                        clickable = {
+                            navController.currentBackStackEntry?.savedStateHandle?.set("product", product)
+                            navController.navigate(Screens.DetailProduct.route)
+                        }
                     )
                 }
 
@@ -221,6 +265,17 @@ fun HomeView(
                 items(trends) { trend ->
                     TrendItem(
                         trendProduct = trend,
+                        clickable = {
+
+                            val productData = ProductData(
+                                mainImage = trend.mainImage,
+                                mainText = trend.title,
+                                minorText = trend.category
+                            )
+
+                            navController.currentBackStackEntry?.savedStateHandle?.set("product", productData)
+                            navController.navigate(Screens.DetailProduct.route)
+                        }
                     )
                 }
 
@@ -232,13 +287,19 @@ fun HomeView(
 
                 ProductItem(
                     product = product,
-                    clickable = {clickable()}
+                    clickable = {
+                        navController.currentBackStackEntry?.savedStateHandle?.set("product", product)
+                        navController.navigate(Screens.DetailProduct.route)
+                    }
                 )
 
             }
     }
 
+
 }
+
+
 
 
 
@@ -251,9 +312,16 @@ private fun HomeViewPreview() {
     val products = viewModel.products
     val trends = viewModel.trend
 
+    val navController = rememberNavController()
+
     ShopXpressTheme {
 
-        HomeView(products = products, trends = trends, {})
+        HomeView(
+            products = products,
+            trends = trends,
+            navController = navController,
+            onSearch = {}
+        )
         
     }
 
