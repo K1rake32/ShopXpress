@@ -30,26 +30,20 @@ class ResultSearchViewModel: ViewModel() {
 
     private fun loadProducts() {
         _products.addAll(listOf(
-            ProductData(R.drawable.book_item, "User Story Book", "N6500"),
-            ProductData(R.drawable.macbook, "2019 MacBook Pro", "N950,000"),
-            ProductData(R.drawable.sunglasses, "Luxury Sunglasses", "N12,000"),
-            ProductData(R.drawable.quest, "Oculus Quest", "N175,000"),
-            ProductData(R.drawable.book_item, "User Story Book", "N6500"),
-            ProductData(R.drawable.macbook, "2019 MacBook Pro", "N950,000"),
-            ProductData(R.drawable.sunglasses, "Luxury Sunglasses", "N12,000"),
-            ProductData(R.drawable.quest, "Oculus Quest", "N175,000"),
-            ProductData(R.drawable.book_item, "User Story Book", "N6500"),
-            ProductData(R.drawable.macbook, "2019 MacBook Pro", "N950,000"),
-            ProductData(R.drawable.sunglasses, "Luxury Sunglasses", "N12,000"),
-            ProductData(R.drawable.quest, "Oculus Quest", "N175,000"),
-            ProductData(R.drawable.book_item, "User Story Book", "N6500"),
-            ProductData(R.drawable.macbook, "2019 MacBook Pro", "N950,000"),
-            ProductData(R.drawable.sunglasses, "Luxury Sunglasses", "N12,000"),
-            ProductData(R.drawable.quest, "Oculus Quest", "N175,000"),
-            ProductData(R.drawable.book_item, "User Story Book", "N6500"),
-            ProductData(R.drawable.macbook, "2019 MacBook Pro", "N950,000"),
-            ProductData(R.drawable.sunglasses, "Luxury Sunglasses", "N12,000"),
-            ProductData(R.drawable.quest, "Oculus Quest", "N175,000"),
+            //shoes
+            ProductData(R.drawable.shoes_1, "Converse All Star", "N35,500", "Shoes"),
+            ProductData(R.drawable.shoes_2, "Crocs Brooklyn", "N950,000", "Shoes"),
+            ProductData(R.drawable.shoes_3, "Oculus Quest", "N175,000", "Shoes"),
+            ProductData(R.drawable.shoes_4, "Classic Oxford Shoe", "N30,000", "Shoes"),
+            ProductData(R.drawable.shoes_x, "Pointed Toe Heels", "N16,000", "Shoes"),
+            ProductData(R.drawable.shoes_6, "Nike SUPERPREP GO", "N60,000", "Shoes"),
+            ProductData(R.drawable.shoes_7, "NIKE running shoes", "N175,000", "Shoes"),
+            //electronics
+            ProductData(R.drawable.macbook, "2019 MacBook Pro", "N950,000", "Electronics"),
+            ProductData(R.drawable.quest, "Oculus Quest", "N175,000", "Electronics"),
+            ProductData(R.drawable.electronics_2, "44” Smart Dell Tv", "N340,000", "Electronics"),
+            ProductData(R.drawable.electronics_3, "Airpods Pro", "N120,000", "Electronics"),
+            ProductData(R.drawable.electronics_4, "XBox Controller", "N190,000", "Electronics"),
         ))
     }
 

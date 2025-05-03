@@ -77,6 +77,7 @@ private fun DetailProductViewPreview() {
     val previewList = ProductData (
             mainImage = R.drawable.book_item,
             "Preview",
+            "Preview",
             "Preview"
     )
 

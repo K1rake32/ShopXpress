@@ -156,8 +156,7 @@ fun AppNavHost(navController: NavHostController) {
 
                 ResultSearchView(
                     query = query,
-                    navController = navController,
-                    count = 3
+                    navController = navController
                 )
             }
 

@@ -270,7 +270,8 @@ fun HomeView(
                             val productData = ProductData(
                                 mainImage = trend.mainImage,
                                 mainText = trend.title,
-                                minorText = trend.category
+                                minorText = trend.category,
+                                category = trend.category
                             )
 
                             navController.currentBackStackEntry?.savedStateHandle?.set("product", productData)

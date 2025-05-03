@@ -41,8 +41,10 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.shopxpress.R
@@ -99,6 +101,7 @@ fun ProductItem(
 ) {
 
     var isLiked by remember { mutableStateOf(false)}
+    var isOverflow by remember { mutableStateOf(false) }
 
     Card(
         modifier = Modifier
@@ -119,7 +122,8 @@ fun ProductItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(130.dp)
-                    .padding(horizontal = 16.dp, vertical = 9.dp),
+                    .padding(vertical = 9.dp)
+                    .padding(start = 16.dp,),
 
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -136,7 +140,9 @@ fun ProductItem(
 
                 Image(
                     painter = painterResource(id = product.mainImage),
-                    contentDescription = ""
+                    contentDescription = "",
+                    modifier = Modifier
+                        .padding(end = 16.dp)
                 )
             }
 
@@ -151,11 +157,39 @@ fun ProductItem(
 
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text(
-                    text = product.mainText,
-                    style = ShopXpressTheme.typography.main_text.regular,
-                    color = ShopXpressTheme.colors.text_80
-                )
+
+                Box(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = product.mainText,
+                        style = ShopXpressTheme.typography.main_text.regular,
+                        color = ShopXpressTheme.colors.text_80,
+                        maxLines = 1,
+                        overflow = TextOverflow.Clip,
+                        onTextLayout = { result ->
+                            isOverflow = result.hasVisualOverflow
+                        },
+                        softWrap = false,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    if (isOverflow) {
+                        Box(
+                            modifier = Modifier
+                                .matchParentSize()
+                                .background(
+                                    Brush.horizontalGradient(
+                                        colors = listOf(
+                                            Color.Transparent,
+                                            ShopXpressTheme.colors.bcg_0
+                                        ),
+                                        startX = 150f,
+                                        endX = Float.POSITIVE_INFINITY
+                                    )
+                                )
+                        )
+                    }
+                }
 
                 Text(
                     text = product.minorText,

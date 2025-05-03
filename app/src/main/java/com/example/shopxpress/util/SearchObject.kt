@@ -3,11 +3,7 @@ package com.example.shopxpress.util
 object SearchObject {
     val originalProduct = listOf(
         "Shoes",
-        "Office Shoes for men",
-        "Shoes for kids",
-        "Gaming",
-        "Clothings",
-        "Accessories"
+        "Electronics"
     )
 
     fun search(text: String): List<String> {

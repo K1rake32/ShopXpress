@@ -40,7 +40,8 @@ fun SearchItem(
     item: String,
     isSearching: Boolean,
     clear: () -> Unit,
-    query: String
+    query: String,
+    clickable:() -> Unit
 ) {
     val cleanedQuery = query.trim().lowercase()
 
@@ -59,7 +60,10 @@ fun SearchItem(
         }
     }
 
-    Column {
+    Column(
+        modifier = Modifier
+            .clickable { clickable() }
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth(),

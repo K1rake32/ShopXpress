@@ -24,9 +24,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,6 +41,9 @@ import com.example.shopxpress.presentation.ui.screens.main.home.search.component
 import com.example.shopxpress.presentation.ui.screens.main.home.search.ui.SearchEvent
 import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
 import com.example.shopxpress.storage.DataStoreManager
+import com.example.shopxpress.util.SearchObject
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun SearchView(
@@ -51,6 +56,17 @@ fun SearchView(
     val state by viewModel.state.collectAsState()
     val isSearching = state.search.isNotBlank()
     val history by viewModel.history.collectAsState()
+
+    val focusManager = LocalFocusManager.current
+    val coroutineScope = rememberCoroutineScope()
+
+    val searchResults = remember(state.search) {
+        if (state.search.isNotBlank()) {
+            SearchObject.search(state.search)
+        } else {
+            emptyList()
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -113,25 +129,47 @@ fun SearchView(
 
         Spacer(modifier = Modifier.height(36.dp))
 
-        if(!isSearching) {
-
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                items(history) {pastQuery ->
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            if (isSearching) {
+                items(searchResults) { result ->
+                    SearchItem(
+                        item = result,
+                        isSearching = true,
+                        clear = {},
+                        query = state.search,
+                        clickable = {
+                            coroutineScope.launch {
+                                focusManager.clearFocus()
+                                delay(100)
+                                toDetailSearch(result)
+                                viewModel.addQueryToHistory(result)
+                            }
+                        }
+                    )
+                }
+            } else {
+                items(history) { pastQuery ->
                     SearchItem(
                         item = pastQuery,
-                        isSearching = isSearching,
+                        isSearching = false,
                         clear = {
                             viewModel.removeItem(pastQuery)
                         },
-                        query = state.search
+                        query = state.search,
+                        clickable = {
+                            coroutineScope.launch {
+                                focusManager.clearFocus()
+                                delay(100)
+                                toDetailSearch(pastQuery)
+                                viewModel.addQueryToHistory(pastQuery)
+                            }
+                        }
                     )
                 }
             }
-
         }
-
 
     }
 
