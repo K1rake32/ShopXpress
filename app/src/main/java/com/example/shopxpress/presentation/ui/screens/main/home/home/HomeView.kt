@@ -283,7 +283,7 @@ fun HomeView(
             }
 
             ItemRecommended(
-                items = products.drop(6).take(6)
+                items = products.drop(6).take(6),
             ) { product ->
 
                 ProductItem(
@@ -295,6 +295,9 @@ fun HomeView(
                 )
 
             }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
     }
 
 

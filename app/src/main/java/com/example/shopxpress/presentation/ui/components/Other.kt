@@ -1,5 +1,6 @@
 package com.example.shopxpress.presentation.ui.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -66,6 +67,47 @@ fun DefaultNavBar(
                     .alpha(0f)
             )
 
+        }
+
+    }
+
+}
+
+@Composable
+fun MainNavBar(
+    text: String,
+    style: TextStyle = ShopXpressTheme.typography.navigation_text.extraBold,
+    color: Color = ShopXpressTheme.colors.text_100,
+    image: Int? = null
+) {
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        
+        image?.let { 
+            Text(text = "")
+        }
+
+        Text(
+            text = text,
+            style = style,
+            color = color
+        )
+        
+        
+
+        image?.let {
+            
+            Icon(
+                painter = painterResource(id = image),
+                contentDescription =  "edit_profile"
+            )
+            
         }
 
     }

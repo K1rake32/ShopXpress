@@ -1,14 +1,18 @@
 package com.example.shopxpress.presentation.ui.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Button
@@ -18,7 +22,9 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
@@ -63,7 +69,8 @@ fun TextBackButton(
     onclick: () -> Unit,
     text: String,
     style: TextStyle,
-    color: Color
+    color: Color,
+    modifier: Modifier = Modifier
 ) {
 
     TextButton(
@@ -111,7 +118,7 @@ fun OutlinedDefaultButton(
                     tint = tint,
                     modifier = Modifier
                         .size(30.dp)
-                        .clickable { onclick()}
+                        .clickable { onclick() }
                 )
             }
         } else {
@@ -128,6 +135,46 @@ fun OutlinedDefaultButton(
 
     }
 
+}
+
+@Composable
+fun SegmentedControl(
+    options: List<String>,
+    selectedIndex: Int,
+    onOptionSelected: (Int) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = Modifier
+            .background(
+                color = ShopXpressTheme.colors.bcg_0,
+                shape = RoundedCornerShape(50)
+            )
+            .padding(4.dp)
+            .height(40.dp)
+    ) {
+        options.forEachIndexed { index, option ->
+            val isSelected = index == selectedIndex
+            val backgroundColor = if (isSelected) ShopXpressTheme.colors.primary else ShopXpressTheme.colors.bcg_100
+            val textColor = if (isSelected) Color.White else ShopXpressTheme.colors.primary
+
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .clip(RoundedCornerShape(50))
+                    .background(backgroundColor)
+                    .clickable { onOptionSelected(index) }
+                    .padding(vertical = 8.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = option,
+                    color = textColor,
+                    style = ShopXpressTheme.typography.main_text.bold
+                )
+            }
+        }
+    }
 }
 
 @Composable

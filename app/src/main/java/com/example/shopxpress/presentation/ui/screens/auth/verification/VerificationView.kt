@@ -41,7 +41,8 @@ import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
 @Composable
 fun VerificationView(
     viewModel: VerificationViewModel = viewModel(),
-    focusRequesters: List<FocusRequester> = remember { List(4) { FocusRequester() } }
+    focusRequesters: List<FocusRequester> = remember { List(4) { FocusRequester() } },
+    toInterest: () -> Unit
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -51,6 +52,12 @@ fun VerificationView(
     LaunchedEffect(state.focusedIndex) {
         state.focusedIndex?.let { index ->
             focusRequesters.getOrNull(index)?.requestFocus()
+        }
+    }
+
+    LaunchedEffect(state.verificationResult) {
+        if (state.verificationResult == true) {
+            toInterest()
         }
     }
 
@@ -122,7 +129,7 @@ fun VerificationView(
 
         }
 
-        state.isValid?.let {  isValid ->
+        state.verificationResult?.let {  isValid ->
             Text(
                 text = if(isValid) "OTP is valid!" else "OTP is invalid",
                 style = ShopXpressTheme.typography.main_text.bold
@@ -135,7 +142,9 @@ fun VerificationView(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 25.dp),
-            onclick = { /*TODO*/ },
+            onclick = {
+                      viewModel.onAction(OtpAction.VerifyCode)
+            },
             text = "Verify Number"
         )
 
@@ -172,7 +181,5 @@ private fun VerificationViewPreview() {
             keyboardManager?.hide()
         }
     }
-
-
 
 }

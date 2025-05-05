@@ -1,6 +1,7 @@
 package com.example.shopxpress.presentation.ui.screens.onboarding.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,11 +16,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.shopxpress.presentation.ui.components.TextBackButton
 import com.example.shopxpress.presentation.ui.screens.onboarding.OnboardingModel
 import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
 
 @Composable
-fun OnBoardingGraphUI(onboardingModel: OnboardingModel) {
+fun OnBoardingGraphUI(
+    onboardingModel: OnboardingModel,
+    clickable: () -> Unit
+) {
 
     Column(
         modifier = Modifier
@@ -29,7 +34,23 @@ fun OnBoardingGraphUI(onboardingModel: OnboardingModel) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Spacer(modifier = Modifier.height(100.dp))
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(40.dp),
+            contentAlignment = Alignment.TopEnd
+        ) {
+            TextBackButton(
+                onclick = {clickable()},
+                text = "Skip",
+                style = ShopXpressTheme.typography.main_text.bold,
+                color = ShopXpressTheme.colors.text_100,
+            )
+        }
+
+        Spacer(modifier = Modifier.height(70.dp))
 
         Image(
             painter = painterResource(id = onboardingModel.image),
@@ -63,23 +84,23 @@ fun OnBoardingGraphUI(onboardingModel: OnboardingModel) {
 @Composable
 @Preview(showBackground = true)
 private fun OnBoardingGraphUI1() {
-    OnBoardingGraphUI(onboardingModel = OnboardingModel.FirstPage)
+    OnBoardingGraphUI(onboardingModel = OnboardingModel.FirstPage, {})
 }
 
 @Composable
 @Preview(showBackground = true)
 private fun OnBoardingGraphUI2() {
-    OnBoardingGraphUI(onboardingModel = OnboardingModel.SecondPage)
+    OnBoardingGraphUI(onboardingModel = OnboardingModel.SecondPage, {})
 }
 
 @Composable
 @Preview(showBackground = true)
 private fun OnBoardingGraphUI3() {
-    OnBoardingGraphUI(onboardingModel = OnboardingModel.ThirdPage)
+    OnBoardingGraphUI(onboardingModel = OnboardingModel.ThirdPage, {})
 }
 
 @Composable
 @Preview(showBackground = true)
 private fun OnBoardingGraphUI4() {
-    OnBoardingGraphUI(onboardingModel = OnboardingModel.FourthPage)
+    OnBoardingGraphUI(onboardingModel = OnboardingModel.FourthPage, {})
 }

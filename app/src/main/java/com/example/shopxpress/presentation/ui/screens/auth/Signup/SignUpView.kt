@@ -1,5 +1,6 @@
 package com.example.shopxpress.presentation.ui.screens.auth.Signup
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,8 +13,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -25,11 +29,14 @@ import com.example.shopxpress.presentation.ui.screens.auth.Signup.components.Aro
 import com.example.shopxpress.presentation.ui.screens.auth.Signup.ui.SignUpEvent
 import com.example.shopxpress.presentation.ui.screens.auth.Signup.ui.SignUpViewModel
 import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
+import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.ProvideWindowInsets
 
 @Composable
 fun SignUpView(
     signViewModel: SignUpViewModel = viewModel(),
-    navigationVerification: () -> Unit
+    navigationVerification: () -> Unit,
+    toLogin: () -> Unit
 ) {
 
     val state by signViewModel.state.collectAsState()
@@ -114,7 +121,14 @@ fun SignUpView(
 
             AuthTextField(
                 text = state.number,
-                onValueChange = {signViewModel.onEvent(SignUpEvent.OnNumberChange(it))},
+                onValueChange = { input ->
+                    val filtered = if (input.isNotEmpty() && input[0] == '8') {
+                        input.removePrefix("8")
+                    } else {
+                        input
+                    }
+                    signViewModel.onEvent(SignUpEvent.OnNumberChange(filtered))
+                },
                 label = "Phone Number",
                 isNumber = true
             )
@@ -137,11 +151,25 @@ fun SignUpView(
 
         Spacer(modifier = Modifier.height(17.dp))
 
-        Text(
-            text = "Already have an account? Log In",
-            style = ShopXpressTheme.typography.main_text.regular,
-            color = ShopXpressTheme.colors.text_60
-        )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Text(
+                text = "Already have an account?",
+                style = ShopXpressTheme.typography.main_text.regular,
+                color = ShopXpressTheme.colors.text_60
+            )
+
+            Text(
+                text = "Log in",
+                style = ShopXpressTheme.typography.main_text.bold,
+                color = ShopXpressTheme.colors.primary,
+                modifier = Modifier
+                    .clickable { toLogin() },
+                textDecoration = TextDecoration.Underline
+            )
+
+        }
 
     }
 
@@ -152,7 +180,7 @@ fun SignUpView(
 private fun SignUpPreview() {
     
     ShopXpressTheme{
-        SignUpView(signViewModel = SignUpViewModel(),{})
+        SignUpView(signViewModel = SignUpViewModel(),{}, {})
     }
     
 }

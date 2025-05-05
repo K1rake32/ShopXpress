@@ -6,50 +6,61 @@ import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import kotlin.math.absoluteValue
 
-class MaskVisualTransformation(private val mask: String): VisualTransformation {
+class MaskVisualTransformation(private val mask: String) : VisualTransformation {
 
     private val specialSymbolsIndices = mask.indices.filter { mask[it] != '#' }
-    private val maxSymbol = 10
+    private val maxSymbol = mask.count { it == '#' }
 
     override fun filter(text: AnnotatedString): TransformedText {
         var out = ""
         var maskIndex = 0
         var charCount = 0
-        text.forEach {  char ->
+
+        text.forEach { char ->
 
             if (charCount >= maxSymbol) {
                 return@forEach
             }
 
-            while (specialSymbolsIndices.contains(maskIndex)) {
+            while (maskIndex < mask.length && specialSymbolsIndices.contains(maskIndex)) {
                 out += mask[maskIndex]
                 maskIndex++
             }
 
-            out += char
-            maskIndex++
+            if (maskIndex < mask.length) {
+                out += char
+                maskIndex++
+            }
             charCount++
         }
 
-        return TransformedText(AnnotatedString(out),offsetTranslator())
-
+        return TransformedText(AnnotatedString(out), offsetTranslator())
     }
-
-    private fun offsetTranslator() = object: OffsetMapping {
+    private fun offsetTranslator() = object : OffsetMapping {
         override fun originalToTransformed(offset: Int): Int {
-            val offsetValue = offset.absoluteValue
-            if (offsetValue == 0) return 0
-            var numberOfHashtags = 0
-            val masked = mask.takeWhile {
-                if (it == '#') numberOfHashtags++
-                numberOfHashtags < offsetValue
+            if (offset <= 0) return 0
+            var hashtagsSeen = 0
+            var index = 0
+            while (index < mask.length && hashtagsSeen < offset) {
+                if (mask[index] == '#') {
+                    hashtagsSeen++
+                }
+                index++
             }
-            return masked.length + 1
+            return index.coerceAtMost(mask.length)
         }
 
         override fun transformedToOriginal(offset: Int): Int {
-            return mask.take(offset.absoluteValue).count { it == '#' }
+            if (offset <= 0) return 0
+            var hashtagsSeen = 0
+            var index = 0
+            while (index < offset && index < mask.length) {
+                if (mask[index] == '#') {
+                    hashtagsSeen++
+                }
+                index++
+            }
+            return hashtagsSeen
         }
     }
-
 }

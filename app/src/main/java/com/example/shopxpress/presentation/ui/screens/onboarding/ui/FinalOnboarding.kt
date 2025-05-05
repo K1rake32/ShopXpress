@@ -27,7 +27,8 @@ import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
 
 @Composable
 fun FinalOnboarding(
-    onSignUp: () -> Unit
+    onSignUp: () -> Unit,
+    toLogin: () -> Unit
 ) {
 
     Column(
@@ -74,7 +75,7 @@ fun FinalOnboarding(
         ) {
 
             OutlinedDefaultButton(
-                onclick = { /*TODO*/ },
+                onclick = {toLogin()},
                 text = "Log In",
                 modifier = Modifier
                     .weight(0.25f)
@@ -109,7 +110,7 @@ fun FinalOnboarding(
 private fun FinalOnboardingPreview() {
 
     ShopXpressTheme {
-        FinalOnboarding({})
+        FinalOnboarding({}, {})
     }
 
 }

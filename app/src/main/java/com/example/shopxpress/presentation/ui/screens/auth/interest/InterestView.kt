@@ -27,6 +27,7 @@ import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
 
 @Composable
 fun InterestView(
+    toHome: () -> Unit
 ) {
 
     Column(
@@ -86,7 +87,7 @@ fun InterestView(
             )
 
             DefaultButton(
-                onclick = { /*TODO*/ },
+                onclick = {toHome()},
                 text = "Submit",
                 modifier = Modifier
                     .weight(0.5f)
@@ -104,7 +105,7 @@ fun InterestView(
 private fun InterestViewPreview() {
 
     ShopXpressTheme {
-        InterestView()
+        InterestView({})
     }
 
 }

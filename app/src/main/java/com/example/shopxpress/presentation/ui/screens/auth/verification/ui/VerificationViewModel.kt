@@ -10,63 +10,60 @@ import kotlinx.coroutines.flow.update
 
 private const val VALID_OTP_CODE = "1111"
 
-class VerificationViewModel: ViewModel() {
+class VerificationViewModel : ViewModel() {
 
     private val _state = MutableStateFlow(VerificationState())
     val state = _state.asStateFlow()
 
     fun onAction(action: OtpAction) {
-        when(action) {
+        when (action) {
             is OtpAction.OnChangedFieldFocused -> {
-                _state.update { it.copy(
-                    focusedIndex = action.index
-                ) }
+                _state.update { it.copy(focusedIndex = action.index) }
             }
             is OtpAction.OnEnterNumber -> {
                 enterNumber(action.number, action.index)
             }
             OtpAction.OnKeyboardBack -> {
                 val previousIndex = getPreviousFocusedIndex(state.value.focusedIndex)
-                _state.update { it.copy(
-                    code = it.code.mapIndexed { index, number ->
-                        if(index == previousIndex) {
-                            null
-                        } else {
-                            number
-                        }
-                    },
-                    focusedIndex = previousIndex
-                ) }
+                _state.update {
+                    it.copy(
+                        code = it.code.mapIndexed { index, number ->
+                            if (index == previousIndex) null else number
+                        },
+                        focusedIndex = previousIndex
+                    )
+                }
+            }
+            OtpAction.VerifyCode -> {
+                val codeComplete = _state.value.code.none { it == null }
+                val isCorrect = _state.value.code.joinToString("") { it?.toString() ?: "" } == VALID_OTP_CODE
+                _state.update {
+                    it.copy(
+                        verificationResult = if (codeComplete) isCorrect else null
+                    )
+                }
             }
         }
     }
 
-    private fun enterNumber(
-        number: Int?,
-        index: Int
-    ) {
-        val newCode = state.value.code.mapIndexed{currentIndex, currentNumber ->
-            if(currentIndex == index) {
-                number
-            } else {
-                currentNumber
-            }
+    private fun enterNumber(number: Int?, index: Int) {
+        val newCode = state.value.code.mapIndexed { currentIndex, currentNumber ->
+            if (currentIndex == index) number else currentNumber
         }
         val wasNumberRemoved = number == null
-        _state.update { it.copy(
-            code = newCode,
-            focusedIndex = if(wasNumberRemoved || it.code.getOrNull(index) != null) {
-                it.focusedIndex
-            } else {
-                getNextFocusedTextFieldIndex(
-                    currentCode = it.code,
-                    currentFocusedIndex = it.focusedIndex
-                )
-            },
-            isValid = if(newCode.none {it == null}) {
-                newCode.joinToString { "" } == VALID_OTP_CODE
-            } else null
-        ) }
+        _state.update {
+            it.copy(
+                code = newCode,
+                focusedIndex = if (wasNumberRemoved || it.code.getOrNull(index) != null) {
+                    it.focusedIndex
+                } else {
+                    getNextFocusedTextFieldIndex(
+                        currentCode = it.code,
+                        currentFocusedIndex = it.focusedIndex
+                    )
+                }
+            )
+        }
     }
 
     private fun getPreviousFocusedIndex(currentIndex: Int?): Int? {
@@ -76,14 +73,9 @@ class VerificationViewModel: ViewModel() {
     private fun getNextFocusedTextFieldIndex(
         currentCode: List<Int?>,
         currentFocusedIndex: Int?
-    ) : Int? {
-        if(currentFocusedIndex == null) {
-            return null
-        }
-        if(currentFocusedIndex == 3) {
-            return currentFocusedIndex
-        }
-
+    ): Int? {
+        if (currentFocusedIndex == null) return null
+        if (currentFocusedIndex == 3) return currentFocusedIndex
         return getFirstEmptyFieldIndexAfterFocusedIndex(
             code = currentCode,
             currentFocusedIndex = currentFocusedIndex
@@ -95,14 +87,9 @@ class VerificationViewModel: ViewModel() {
         currentFocusedIndex: Int
     ): Int {
         code.forEachIndexed { index, number ->
-            if(index <= currentFocusedIndex) {
-                return@forEachIndexed
-            }
-            if(number == null) {
-                return index
-            }
+            if (index <= currentFocusedIndex) return@forEachIndexed
+            if (number == null) return index
         }
         return currentFocusedIndex
     }
-
 }

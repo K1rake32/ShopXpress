@@ -135,7 +135,8 @@ fun ProductItem(
                         .align(alignment = Alignment.End)
                         .clickable {
                             isLiked = !isLiked
-                        },
+                        }
+                        .padding(end = 12.dp),
                 )
 
                 Image(
@@ -237,6 +238,7 @@ fun TrendItem(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .height(150.dp)
                     .padding(horizontal = 16.dp, vertical = 9.dp),
 
                 horizontalAlignment = Alignment.CenterHorizontally

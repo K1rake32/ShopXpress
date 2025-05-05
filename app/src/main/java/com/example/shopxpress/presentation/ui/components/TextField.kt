@@ -151,6 +151,12 @@ fun AuthTextField(
                     else -> visualTransformation
                 },
 
+                keyboardOptions = when {
+                    isNumber -> KeyboardOptions(keyboardType = KeyboardType.Phone)
+                    isPassword -> KeyboardOptions(keyboardType = KeyboardType.Password)
+                    else -> KeyboardOptions(keyboardType = KeyboardType.Email)
+                },
+
                 trailingIcon = {
 
                     if (isPassword) {

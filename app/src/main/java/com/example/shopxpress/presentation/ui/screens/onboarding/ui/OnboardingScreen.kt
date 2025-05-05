@@ -61,7 +61,10 @@ fun OnboardingScreen(onFinished: () -> Unit) {
     ) {
 
         HorizontalPager(state = pagerState) { index ->
-            OnBoardingGraphUI(onboardingModel = pages[index])
+            OnBoardingGraphUI(
+                onboardingModel = pages[index],
+                clickable = onFinished
+            )
         }
 
         Spacer(modifier = Modifier.height(10.dp))

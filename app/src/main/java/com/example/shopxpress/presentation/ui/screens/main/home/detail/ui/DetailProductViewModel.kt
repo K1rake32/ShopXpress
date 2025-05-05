@@ -99,12 +99,12 @@ class DetailProductViewModel: ViewModel() {
     private fun loadTrends() {
         _trends.addAll(
             listOf(
-                TrendData(R.drawable.book_item,"H&M Shirt", "N13,500", "5.0", "Fashion"),
-                TrendData(R.drawable.book_item,"H&M Shirt", "N13,500", "5.0", "Fashion"),
-                TrendData(R.drawable.book_item,"H&M Shirt", "N13,500", "5.0", "Fashion"),
-                TrendData(R.drawable.book_item,"H&M Shirt", "N13,500", "5.0", "Fashion"),
-                TrendData(R.drawable.book_item,"H&M Shirt", "N13,500", "5.0", "Fashion"),
-                TrendData(R.drawable.book_item,"H&M Shirt", "N13,500", "5.0", "Fashion"),
+                TrendData(R.drawable.shirt,"H&M Shirt", "N13,500", "5.0", "Fashion"),
+                TrendData(R.drawable.electronics_1,"Bose Headphones", "N113,500", "4.0", "Electronics"),
+                TrendData(R.drawable.electronics_4,"XBox Controller", "N190,000", "5.0", "Electronics"),
+                TrendData(R.drawable.book_item,"User Story Book", "N6500", "3.0", "Book"),
+                TrendData(R.drawable.shoes_7,"NIKE running shoes", "N175,000", "5.0", "Shoes"),
+                TrendData(R.drawable.macbook,"2019 MacBook Pro", "N950,000", "4.0", "Electronics"),
             )
         )
     }

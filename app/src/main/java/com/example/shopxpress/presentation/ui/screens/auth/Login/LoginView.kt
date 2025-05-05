@@ -1,5 +1,6 @@
 package com.example.shopxpress.presentation.ui.screens.auth.Login
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,19 +11,32 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.shopxpress.R
 import com.example.shopxpress.presentation.ui.components.AuthTextField
 import com.example.shopxpress.presentation.ui.components.DefaultButton
 import com.example.shopxpress.presentation.ui.components.DefaultNavBar
+import com.example.shopxpress.presentation.ui.screens.auth.Login.ui.LoginEvent
+import com.example.shopxpress.presentation.ui.screens.auth.Login.ui.LoginViewModel
 import com.example.shopxpress.presentation.ui.screens.auth.Signup.components.AroundLink
+import com.example.shopxpress.presentation.ui.screens.auth.Signup.ui.SignUpViewModel
 import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
 
 @Composable
-fun LoginView() {
+fun LoginView(
+    loginViewModel: LoginViewModel = viewModel(),
+    toHome: () -> Unit,
+    toSignUp: () -> Unit
+) {
+
+    val state by loginViewModel.state.collectAsState()
 
     Column(
         modifier = Modifier
@@ -90,14 +104,14 @@ fun LoginView() {
         ) {
 
             AuthTextField(
-                text = "",
-                onValueChange = { },
+                text = state.email,
+                onValueChange = {loginViewModel.onEvent(LoginEvent.OnEmailChange(it)) },
                 label = "Email Address"
             )
 
             AuthTextField(
-                text = "",
-                onValueChange = {},
+                text = state.password,
+                onValueChange = {loginViewModel.onEvent(LoginEvent.OnPasswordChange(it))},
                 label = "Password",
                 isPassword = true
             )
@@ -110,17 +124,36 @@ fun LoginView() {
             modifier = Modifier
                 .padding(horizontal = 25.dp)
                 .fillMaxWidth(),
-            onclick = {},
+            onclick = {
+                if(state.isButtonEnabled) {
+                    toHome()
+                }
+            },
             text = "Log In"
         )
 
         Spacer(modifier = Modifier.height(17.dp))
 
-        Text(
-            text = "Don’t have an account? Sign Up",
-            style = ShopXpressTheme.typography.main_text.regular,
-            color = ShopXpressTheme.colors.text_60
-        )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+
+            Text(
+                text = "Don’t have an account?",
+                style = ShopXpressTheme.typography.main_text.regular,
+                color = ShopXpressTheme.colors.text_60
+            )
+
+            Text(
+                text = "Sign up",
+                style = ShopXpressTheme.typography.main_text.bold,
+                color = ShopXpressTheme.colors.primary,
+                modifier = Modifier
+                    .clickable { toSignUp() },
+                textDecoration = TextDecoration.Underline
+            )
+
+        }
 
     }
 
@@ -131,7 +164,7 @@ fun LoginView() {
 private fun LoginViewPreview() {
 
     ShopXpressTheme {
-        LoginView()
+        LoginView(toHome = {}, toSignUp = {})
     }
 
 }

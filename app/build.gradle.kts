@@ -81,4 +81,7 @@ dependencies {
 
     //datastore
     implementation ("androidx.datastore:datastore-preferences:1.0.0")
+
+    //keyboard
+    implementation ("com.google.accompanist:accompanist-insets:0.28.0")
 }

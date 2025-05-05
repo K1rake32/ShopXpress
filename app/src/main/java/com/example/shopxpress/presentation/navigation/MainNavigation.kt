@@ -18,6 +18,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import com.example.shopxpress.presentation.data.ProductData
 import com.example.shopxpress.presentation.navigation.bottomNavigation.BottomNavigation
+import com.example.shopxpress.presentation.ui.screens.auth.Login.LoginView
 import com.example.shopxpress.presentation.ui.screens.auth.interest.InterestView
 import com.example.shopxpress.presentation.ui.screens.auth.Signup.SignUpView
 import com.example.shopxpress.presentation.ui.screens.auth.Signup.ui.SignUpViewModel
@@ -29,6 +30,7 @@ import com.example.shopxpress.presentation.ui.screens.main.home.home.HomeScreen
 import com.example.shopxpress.presentation.ui.screens.main.home.resultSearch.ResultSearchView
 import com.example.shopxpress.presentation.ui.screens.main.home.search.SearchView
 import com.example.shopxpress.presentation.ui.screens.main.profile.profile.ProfileView
+import com.example.shopxpress.presentation.ui.screens.main.profile.profileunaUthorized.ProfileUnauthorized
 import com.example.shopxpress.presentation.ui.screens.onboarding.ui.FinalOnboarding
 import com.example.shopxpress.presentation.ui.screens.onboarding.ui.OnboardingScreen
 
@@ -39,6 +41,8 @@ sealed class Screens(val route: String) {
     object FinalOnboarding: Screens("final_onboarding_screen")
 
     object SignUp: Screens("sign_up")
+
+    object Login: Screens ("login")
     object VerificationScreen: Screens("verification_screen")
 
     object InterestScreen: Screens("interest_screen")
@@ -57,6 +61,7 @@ sealed class Screens(val route: String) {
     object DetailProduct: Screens("detail_product")
 
     object ProfileView: Screens("profile_screen")
+    object  ProfileUnAuth: Screens("profile_un_auth_screen")
 
     object CategoryView: Screens("category_screen")
 
@@ -75,7 +80,8 @@ fun AppNavHost(navController: NavHostController) {
                     Screens.HomeView.route,
                     Screens.CategoryView.route,
                     Screens.ProfileView.route,
-                    Screens.CartView.route
+                    Screens.CartView.route,
+                    Screens.ProfileUnAuth.route
                 ),
                 enter = fadeIn() + slideInVertically(),
                 exit = fadeOut() + slideOutVertically()
@@ -87,7 +93,7 @@ fun AppNavHost(navController: NavHostController) {
 
         NavHost(
             navController = navController,
-            startDestination = Screens.HomeView.route,
+            startDestination = Screens.Onboarding.route,
             modifier = Modifier.padding(innerPadding)
         ) {
 
@@ -103,25 +109,49 @@ fun AppNavHost(navController: NavHostController) {
                 FinalOnboarding(
                     onSignUp = {
                         navController.navigate(Screens.SignUp.route)
+                    },
+                    toLogin = {
+                        navController.navigate(Screens.Login.route)
                     }
                 )
             }
 
             composable(Screens.SignUp.route) {
                 SignUpView(
-                    signViewModel = SignUpViewModel(),
                     navigationVerification = {
                         navController.navigate(Screens.VerificationScreen.route)
+                    },
+                    toLogin = {
+                        navController.navigate(Screens.Login.route)
+                    }
+                )
+            }
+
+            composable(Screens.Login.route) {
+                LoginView(
+                    toHome = {
+                        navController.navigate(Screens.HomeView.route)
+                    },
+                    toSignUp = {
+                        navController.navigate(Screens.SignUp.route)
                     }
                 )
             }
 
             composable(Screens.VerificationScreen.route) {
-                VerificationView()
+                VerificationView(
+                    toInterest = {
+                        navController.navigate(Screens.InterestScreen.route)
+                    }
+                )
             }
 
             composable(Screens.InterestScreen.route) {
-                InterestView()
+                InterestView(
+                    toHome = {
+                        navController.navigate(Screens.HomeView.route)
+                    }
+                )
             }
 
 
@@ -175,6 +205,10 @@ fun AppNavHost(navController: NavHostController) {
 
             composable(Screens.ProfileView.route) {
                 ProfileView()
+            }
+
+            composable(Screens.ProfileUnAuth.route) {
+                ProfileUnauthorized()
             }
 
             composable(Screens.CartView.route) {
