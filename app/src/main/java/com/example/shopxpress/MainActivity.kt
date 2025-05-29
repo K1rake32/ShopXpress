@@ -9,12 +9,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.shopxpress.presentation.navigation.AppNavHost
 import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,9 +27,24 @@ class MainActivity : ComponentActivity() {
             ShopXpressTheme {
                 val navController = rememberNavController()
 
+                SetBarColor(Color.White)
+
                 AppNavHost(navController = navController)
             }
         }
     }
+}
+
+@Composable
+private fun SetBarColor(color: Color) {
+
+    val systemUiController = rememberSystemUiController()
+
+    SideEffect {
+        systemUiController.setSystemBarsColor(
+            color = color
+        )
+    }
+
 }
 

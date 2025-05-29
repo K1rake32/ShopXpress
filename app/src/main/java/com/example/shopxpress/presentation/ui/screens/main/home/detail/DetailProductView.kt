@@ -24,13 +24,16 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.shopxpress.R
 import com.example.shopxpress.presentation.data.ProductData
 import com.example.shopxpress.presentation.ui.components.DefaultNavBar
+import com.example.shopxpress.presentation.ui.screens.main.cart.cart.ui.CartViewModel
 import com.example.shopxpress.presentation.ui.screens.main.home.detail.components.CardProduct
 import com.example.shopxpress.presentation.ui.screens.main.home.home.ui.HomeViewModel
 import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
 
 @Composable
 fun DetailProductView(
-    product: ProductData
+    product: ProductData,
+    cartViewModel: CartViewModel,
+    toCart: () -> Unit
 ) {
 
     Column(
@@ -64,7 +67,12 @@ fun DetailProductView(
                 colorFirst = ShopXpressTheme.colors.bright_0,
                 colorSecond = ShopXpressTheme.colors.bright_10,
                 colorThird = ShopXpressTheme.colors.bright_20,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                product = product,
+                cartViewModel = cartViewModel,
+                toCart = {
+                    toCart()
+                }
             )
         }
 
@@ -81,7 +89,9 @@ private fun DetailProductViewPreview() {
             "Preview"
     )
 
+    val cartViewModel: CartViewModel = viewModel()
+
     ShopXpressTheme {
-        DetailProductView(product = previewList)
+
     }
 }

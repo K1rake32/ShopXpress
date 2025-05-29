@@ -84,4 +84,6 @@ dependencies {
 
     //keyboard
     implementation ("com.google.accompanist:accompanist-insets:0.28.0")
+
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
 }

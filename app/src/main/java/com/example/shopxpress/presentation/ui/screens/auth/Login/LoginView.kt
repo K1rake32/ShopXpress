@@ -106,14 +106,18 @@ fun LoginView(
             AuthTextField(
                 text = state.email,
                 onValueChange = {loginViewModel.onEvent(LoginEvent.OnEmailChange(it)) },
-                label = "Email Address"
+                label = "Email Address",
+                modifier = Modifier
+                    .fillMaxWidth()
             )
 
             AuthTextField(
                 text = state.password,
                 onValueChange = {loginViewModel.onEvent(LoginEvent.OnPasswordChange(it))},
                 label = "Password",
-                isPassword = true
+                isPassword = true,
+                modifier = Modifier
+                    .fillMaxWidth()
             )
 
         }

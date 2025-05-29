@@ -78,12 +78,12 @@ fun MainNavBar(
     text: String,
     style: TextStyle = ShopXpressTheme.typography.navigation_text.extraBold,
     color: Color = ShopXpressTheme.colors.text_100,
-    image: Int? = null
+    image: Int? = null,
+    modifier: Modifier = Modifier
 ) {
 
     Row(
-        modifier = Modifier
-            .fillMaxWidth(),
+        modifier = Modifier,
 
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically

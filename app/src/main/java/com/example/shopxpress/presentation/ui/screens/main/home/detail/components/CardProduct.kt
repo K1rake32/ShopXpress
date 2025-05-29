@@ -45,8 +45,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.shopxpress.R
+import com.example.shopxpress.presentation.data.CartData
+import com.example.shopxpress.presentation.data.ProductData
 import com.example.shopxpress.presentation.ui.components.DefaultButton
+import com.example.shopxpress.presentation.ui.components.InCartButton
 import com.example.shopxpress.presentation.ui.components.OutlinedDefaultButton
+import com.example.shopxpress.presentation.ui.screens.main.cart.cart.components.CartItem
+import com.example.shopxpress.presentation.ui.screens.main.cart.cart.ui.CartViewModel
 import com.example.shopxpress.presentation.ui.screens.main.home.detail.ui.DetailProductViewModel
 import com.example.shopxpress.presentation.ui.screens.main.home.home.components.TrendItem
 import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
@@ -65,15 +70,23 @@ fun CardProduct(
     colorFirst: Color,
     colorSecond: Color,
     colorThird: Color,
-    viewModel: DetailProductViewModel = viewModel()
+    viewModel: DetailProductViewModel = viewModel(),
+    cartViewModel: CartViewModel,
+    product: ProductData,
+    toCart: () -> Unit
 ) {
 
     var selectedColor by remember { mutableStateOf(colorFirst) }
 
     val reviews = viewModel.reviews
     val trends = viewModel.trends
+    val stateText = remember { mutableStateOf("Add to cart") }
+    var alreadyClicked by remember { mutableStateOf(false) }
 
     var isLiked by remember { mutableStateOf(false)}
+
+    val count = remember { mutableStateOf(1)}
+    val showInCartButton = alreadyClicked && count.value > 0
 
     ElevatedCard(
         modifier = Modifier
@@ -219,14 +232,30 @@ fun CardProduct(
 
                 Spacer(modifier = Modifier.width(17.dp))
 
-                DefaultButton(
-                    onclick = { /*TODO*/ },
-                    text = "Add to cart",
-                    modifier = Modifier
-                        .weight(0.65f),
-
-                )
-
+                if (showInCartButton) {
+                    InCartButton(
+                        removeItem = {
+                            if (count.value > 1) {
+                                count.value -= 1
+                            } else {
+                                count.value = 0
+                            }
+                        },
+                        addItem = { if (count.value < 9) count.value += 1 },
+                        count = count.value.toString(),
+                        modifier = Modifier.weight(0.65f)
+                    )
+                } else {
+                    DefaultButton(
+                        onclick = {
+                            alreadyClicked = true
+                            count.value = 1
+                            cartViewModel.addCart(product)
+                        },
+                        text = stateText.value,
+                        modifier = Modifier.weight(0.65f)
+                    )
+                }
             }
 
         }
@@ -387,13 +416,15 @@ private fun RatingStar(
 @Composable
 @Preview
 private fun CardProductPreview() {
+
+    val product = CartData(
+        mainImage = R.drawable.shirt,
+        label = "qewqeqeq",
+        price = "eqweqewqeq",
+        size = "eqwewqeq"
+    )
+
     ShopXpressTheme {
-        CardProduct(
-            category = "Fashion",
-            title = "H&M Quality Shirt",
-            colorFirst = ShopXpressTheme.colors.bright_0,
-            colorSecond = ShopXpressTheme.colors.bright_10,
-            colorThird = ShopXpressTheme.colors.bright_20,
-        )
+
     }
 }

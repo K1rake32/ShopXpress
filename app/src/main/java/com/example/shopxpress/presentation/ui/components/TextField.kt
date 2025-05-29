@@ -123,7 +123,6 @@ fun AuthTextField(
             OutlinedTextField(
 
                 modifier = modifier
-                    .fillMaxWidth()
                     .height(60.dp),
 
                 value = text,

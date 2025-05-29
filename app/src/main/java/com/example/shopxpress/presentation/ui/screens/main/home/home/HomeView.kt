@@ -128,7 +128,7 @@ fun HomeView(
                     }
 
                     Text(
-                        text = "Welcome Oye!",
+                        text = "Welcome Andrey!",
                         style = ShopXpressTheme.typography.navigation_text.bold,
                         color = ShopXpressTheme.colors.text_80
                     )

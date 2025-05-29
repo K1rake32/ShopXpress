@@ -109,14 +109,18 @@ fun SignUpView(
             AuthTextField(
                 text = state.email,
                 onValueChange = { signViewModel.onEvent(SignUpEvent.OnEmailChange(it)) },
-                label = "Email Address"
+                label = "Email Address",
+                modifier = Modifier
+                    .fillMaxWidth()
             )
 
             AuthTextField(
                 text = state.password,
                 onValueChange = {signViewModel.onEvent(SignUpEvent.OnPasswordChange(it))},
                 label = "Password",
-                isPassword = true
+                isPassword = true,
+                modifier = Modifier
+                    .fillMaxWidth()
             )
 
             AuthTextField(
@@ -130,7 +134,9 @@ fun SignUpView(
                     signViewModel.onEvent(SignUpEvent.OnNumberChange(filtered))
                 },
                 label = "Phone Number",
-                isNumber = true
+                isNumber = true,
+                modifier = Modifier
+                    .fillMaxWidth()
             )
 
         }

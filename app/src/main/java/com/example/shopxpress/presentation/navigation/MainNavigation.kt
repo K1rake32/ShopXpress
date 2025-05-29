@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -23,7 +24,9 @@ import com.example.shopxpress.presentation.ui.screens.auth.interest.InterestView
 import com.example.shopxpress.presentation.ui.screens.auth.Signup.SignUpView
 import com.example.shopxpress.presentation.ui.screens.auth.Signup.ui.SignUpViewModel
 import com.example.shopxpress.presentation.ui.screens.auth.verification.VerificationView
+import com.example.shopxpress.presentation.ui.screens.main.cart.CartScreen
 import com.example.shopxpress.presentation.ui.screens.main.cart.cart.CartView
+import com.example.shopxpress.presentation.ui.screens.main.cart.cart.ui.CartViewModel
 import com.example.shopxpress.presentation.ui.screens.main.categories.category.CategoryView
 import com.example.shopxpress.presentation.ui.screens.main.home.detail.DetailProductView
 import com.example.shopxpress.presentation.ui.screens.main.home.home.HomeScreen
@@ -73,6 +76,8 @@ sealed class Screens(val route: String) {
 @Composable
 fun AppNavHost(navController: NavHostController) {
 
+    val cartViewModel: CartViewModel = viewModel()
+
     Scaffold(
         bottomBar = {
             AnimatedVisibility(
@@ -93,7 +98,7 @@ fun AppNavHost(navController: NavHostController) {
 
         NavHost(
             navController = navController,
-            startDestination = Screens.Onboarding.route,
+            startDestination = Screens.HomeView.route,
             modifier = Modifier.padding(innerPadding)
         ) {
 
@@ -199,6 +204,10 @@ fun AppNavHost(navController: NavHostController) {
                 if(product != null) {
                     DetailProductView(
                         product = product,
+                        cartViewModel = cartViewModel,
+                        toCart = {
+                            navController.navigate(Screens.CartView.route)
+                        }
                     )
                 }
             }
@@ -212,7 +221,12 @@ fun AppNavHost(navController: NavHostController) {
             }
 
             composable(Screens.CartView.route) {
-                CartView()
+                CartScreen(
+                    cartViewModel,
+                    toShopping = {
+                        navController.navigate(Screens.HomeView.route)
+                    }
+                    )
             }
         }
 
