@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopxpress.R
+import com.example.shopxpress.presentation.navigation.component.ScreenConfig
 import kotlinx.coroutines.launch
 
 class BottomNavigationViewModel: ViewModel() {
@@ -26,22 +27,26 @@ class BottomNavigationViewModel: ViewModel() {
                 BottomData(
                     unSelectedImage = R.drawable.home,
                     selectedImage = R.drawable.home_active,
-                    title = "Home"
+                    title = "Home",
+                    screen = ScreenConfig.HomeScreen
                 ),
                 BottomData(
                     unSelectedImage = R.drawable.categories,
                     selectedImage = R.drawable.categories_active,
-                    title = "Categories"
+                    title = "Categories",
+                    screen = ScreenConfig.CategoryScreen
                 ),
                 BottomData(
                     unSelectedImage = R.drawable.profile,
                     selectedImage = R.drawable.profile_active,
-                    title = "Profile"
+                    title = "Profile",
+                    screen = ScreenConfig.ProfileScreen
                 ),
                 BottomData(
                     unSelectedImage = R.drawable.cart,
                     selectedImage = R.drawable.cart_active,
-                    title = "Cart"
+                    title = "Cart",
+                    screen = ScreenConfig.CartScreen
                 ),
             )
         )

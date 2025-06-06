@@ -20,6 +20,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.shopxpress.R
+import com.example.shopxpress.presentation.navigation.DefaultRootComponent
+import com.example.shopxpress.presentation.navigation.component.OnFinalOnBoardingComponent
 import com.example.shopxpress.presentation.ui.components.DefaultButton
 import com.example.shopxpress.presentation.ui.components.OutlinedDefaultButton
 import com.example.shopxpress.presentation.ui.components.TextBackButton
@@ -28,7 +30,8 @@ import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
 @Composable
 fun FinalOnboarding(
     onSignUp: () -> Unit,
-    toLogin: () -> Unit
+    toLogin: () -> Unit,
+    component: OnFinalOnBoardingComponent
 ) {
 
     Column(
@@ -75,7 +78,7 @@ fun FinalOnboarding(
         ) {
 
             OutlinedDefaultButton(
-                onclick = {toLogin()},
+                onclick = component::toLogin,
                 text = "Log In",
                 modifier = Modifier
                     .weight(0.25f)
@@ -84,7 +87,7 @@ fun FinalOnboarding(
             Spacer(modifier = Modifier.width(14.dp))
 
             DefaultButton(
-                onclick = onSignUp,
+                onclick = component::toSignUp,
                 text = "Sign up",
                 modifier = Modifier
                     .weight(0.25f)
@@ -110,7 +113,7 @@ fun FinalOnboarding(
 private fun FinalOnboardingPreview() {
 
     ShopXpressTheme {
-        FinalOnboarding({}, {})
+
     }
 
 }

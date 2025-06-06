@@ -19,6 +19,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.shopxpress.presentation.navigation.DefaultRootComponent
+import com.example.shopxpress.presentation.navigation.component.OnBoardingComponent
 import com.example.shopxpress.presentation.ui.components.DefaultButton
 import com.example.shopxpress.presentation.ui.screens.onboarding.OnboardingModel
 import com.example.shopxpress.presentation.ui.screens.onboarding.components.IndicatorUI
@@ -28,7 +30,10 @@ import kotlinx.coroutines.launch
 @SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun OnboardingScreen(onFinished: () -> Unit) {
+fun OnboardingScreen(
+    onFinished: () -> Unit,
+    component: OnBoardingComponent
+    ) {
 
     val pages = listOf(
         OnboardingModel.FirstPage,
@@ -47,7 +52,7 @@ fun OnboardingScreen(onFinished: () -> Unit) {
             if (pagerState.currentPage < pages.size - 1) {
                 pagerState.animateScrollToPage(pagerState.currentPage + 1)
             } else {
-                onFinished()
+                component.toFinalOnboarding()
             }
         }
     }
@@ -95,7 +100,7 @@ fun OnboardingScreen(onFinished: () -> Unit) {
 private fun OnboardingScreenPreview() {
 
     ShopXpressTheme{
-        OnboardingScreen({})
+
     }
 
 }

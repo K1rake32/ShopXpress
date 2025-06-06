@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.shopxpress.R
+import com.example.shopxpress.presentation.navigation.component.DefaultProfileComponent
 import com.example.shopxpress.presentation.ui.components.MainNavBar
 import com.example.shopxpress.presentation.ui.components.SegmentedControl
 import com.example.shopxpress.presentation.ui.screens.main.profile.profile.components.CardAccountItem
@@ -38,7 +39,8 @@ import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
 
 @Composable
 fun ProfileView(
-    viewModel: ProfileViewModel = viewModel()
+    viewModel: ProfileViewModel = viewModel(),
+    component: DefaultProfileComponent
 ) {
 
     val items = viewModel.item
@@ -154,7 +156,7 @@ fun ProfileView(
 private fun ProfileViewPreview() {
 
     ShopXpressTheme {
-        ProfileView()
+        /*ProfileView()*/
     }
 
 }

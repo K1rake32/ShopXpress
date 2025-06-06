@@ -21,7 +21,7 @@ val lightPalette = ShopXpressColors(
     text_80 = Color(0xFF242424),
     text_100 = Color(0xFF000000),
 
-    bcg_0 = Color(0xFFFFFFFF),
+    bcg_0 = Color.Transparent,
     bcg_100 = Color(0xFFF8F7FA),
 
     other_0 = Color(0xFFD8E2DC),
@@ -52,7 +52,7 @@ val darkPalette = ShopXpressColors(
     text_80 = Color(0xFF242424),
     text_100 = Color(0xFF000000),
 
-    bcg_0 = Color(0xFFFFFFFF),
+    bcg_0 = Color.Transparent,
     bcg_100 = Color(0xFFF8F7FA),
 
     other_0 = Color(0xFFD8E2DC),

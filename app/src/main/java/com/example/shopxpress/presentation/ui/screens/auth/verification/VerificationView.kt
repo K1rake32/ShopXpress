@@ -1,5 +1,6 @@
 package com.example.shopxpress.presentation.ui.screens.auth.verification
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,6 +32,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.shopxpress.R
 import com.example.shopxpress.presentation.base.OtpAction
+import com.example.shopxpress.presentation.navigation.component.DefaultVerifyComponent
 import com.example.shopxpress.presentation.ui.components.DefaultButton
 import com.example.shopxpress.presentation.ui.components.DefaultNavBar
 import com.example.shopxpress.presentation.ui.components.PinTextField
@@ -42,7 +44,8 @@ import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
 fun VerificationView(
     viewModel: VerificationViewModel = viewModel(),
     focusRequesters: List<FocusRequester> = remember { List(4) { FocusRequester() } },
-    toInterest: () -> Unit
+    /*toInterest: () -> Unit,*/
+    component: DefaultVerifyComponent
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -57,7 +60,7 @@ fun VerificationView(
 
     LaunchedEffect(state.verificationResult) {
         if (state.verificationResult == true) {
-            toInterest()
+            component.toInterest()
         }
     }
 
@@ -77,7 +80,8 @@ fun VerificationView(
 
         DefaultNavBar(
             image = R.drawable.icon_back,
-            text = "Enter Verification Code"
+            text = "Enter Verification Code",
+            click = component::toBack
         )
 
         Spacer(modifier = Modifier.height(90.dp))

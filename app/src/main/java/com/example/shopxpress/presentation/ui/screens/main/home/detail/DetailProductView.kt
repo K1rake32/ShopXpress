@@ -23,6 +23,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.shopxpress.R
 import com.example.shopxpress.presentation.data.ProductData
+import com.example.shopxpress.presentation.navigation.component.DefaultDetailComponent
 import com.example.shopxpress.presentation.ui.components.DefaultNavBar
 import com.example.shopxpress.presentation.ui.screens.main.cart.cart.ui.CartViewModel
 import com.example.shopxpress.presentation.ui.screens.main.home.detail.components.CardProduct
@@ -33,7 +34,8 @@ import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
 fun DetailProductView(
     product: ProductData,
     cartViewModel: CartViewModel,
-    toCart: () -> Unit
+    /*toCart: () -> Unit*/
+    component: DefaultDetailComponent
 ) {
 
     Column(
@@ -49,7 +51,8 @@ fun DetailProductView(
                 image = R.drawable.icon_back,
                 text = "",
                 modifier = Modifier
-                    .background(ShopXpressTheme.colors.bcg_100)
+                    .background(ShopXpressTheme.colors.bcg_100),
+                click = {}
             )
 
             Image(
@@ -71,7 +74,7 @@ fun DetailProductView(
                 product = product,
                 cartViewModel = cartViewModel,
                 toCart = {
-                    toCart()
+                    /*toCart()*/
                 }
             )
         }

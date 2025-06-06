@@ -3,6 +3,7 @@ package com.example.shopxpress.presentation.ui.screens.main.cart
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.shopxpress.presentation.navigation.Screens
+import com.example.shopxpress.presentation.navigation.component.DefaultCartComponent
 import com.example.shopxpress.presentation.ui.screens.main.cart.cart.CartView
 import com.example.shopxpress.presentation.ui.screens.main.cart.cart.ui.CartViewModel
 import com.example.shopxpress.presentation.ui.screens.main.cart.unCart.UnCartView
@@ -10,7 +11,8 @@ import com.example.shopxpress.presentation.ui.screens.main.cart.unCart.UnCartVie
 @Composable
 fun CartScreen(
     viewModel: CartViewModel,
-    toShopping:() -> Unit
+    toShopping:() -> Unit,
+    component: DefaultCartComponent
 ) {
 
     val cart = viewModel.cart

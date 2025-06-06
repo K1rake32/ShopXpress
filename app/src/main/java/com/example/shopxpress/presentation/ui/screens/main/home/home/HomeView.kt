@@ -9,11 +9,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -43,6 +46,7 @@ import com.example.shopxpress.R
 import com.example.shopxpress.presentation.data.ProductData
 import com.example.shopxpress.presentation.data.TrendData
 import com.example.shopxpress.presentation.navigation.Screens
+import com.example.shopxpress.presentation.navigation.component.DefaultHomeComponent
 import com.example.shopxpress.presentation.shimmer.home.HomeShimmer
 import com.example.shopxpress.presentation.ui.components.SearchTextField
 import com.example.shopxpress.presentation.ui.components.TextBackButton
@@ -60,7 +64,8 @@ fun HomeScreen(
     viewModel: HomeViewModel = viewModel(),
     toDetail: (Int) -> Unit,
     toSearch: () -> Unit,
-    navController: NavHostController
+   /* navController: NavHostController*/
+    component: DefaultHomeComponent
 ) {
 
     val products = viewModel.products
@@ -71,7 +76,7 @@ fun HomeScreen(
     if(isLoading) {
         HomeShimmer()
     } else {
-        HomeView(products, trends, navController = navController, onSearch = {toSearch()})
+        HomeView(products, trends, /*navController = navController*/ onSearch = {toSearch()}, component = component)
     }
 
 }
@@ -80,9 +85,10 @@ fun HomeScreen(
 fun HomeView(
     products: List<ProductData>,
     trends: List<TrendData>,
-    navController: NavHostController,
+    /*navController: NavHostController,*/
     homeViewModel: HomeViewModel = viewModel(),
-    onSearch: () -> Unit
+    onSearch: () -> Unit,
+    component: DefaultHomeComponent
 ) {
 
     Column(
@@ -250,8 +256,9 @@ fun HomeView(
                     ProductItem(
                         product = product,
                         clickable = {
-                            navController.currentBackStackEntry?.savedStateHandle?.set("product", product)
-                            navController.navigate(Screens.DetailProduct.route)
+                            /*navController.currentBackStackEntry?.savedStateHandle?.set("product", product)
+                            navController.navigate(Screens.DetailProduct.route)*/
+                            component.toDetail(product)
                         }
                     )
                 }
@@ -274,8 +281,8 @@ fun HomeView(
                                 category = trend.category
                             )
 
-                            navController.currentBackStackEntry?.savedStateHandle?.set("product", productData)
-                            navController.navigate(Screens.DetailProduct.route)
+                            /*navController.currentBackStackEntry?.savedStateHandle?.set("product", productData)
+                            navController.navigate(Screens.DetailProduct.route)*/
                         }
                     )
                 }
@@ -289,8 +296,8 @@ fun HomeView(
                 ProductItem(
                     product = product,
                     clickable = {
-                        navController.currentBackStackEntry?.savedStateHandle?.set("product", product)
-                        navController.navigate(Screens.DetailProduct.route)
+                        /*navController.currentBackStackEntry?.savedStateHandle?.set("product", product)
+                        navController.navigate(Screens.DetailProduct.route)*/
                     }
                 )
 
@@ -318,15 +325,15 @@ private fun HomeViewPreview() {
 
     val navController = rememberNavController()
 
-    ShopXpressTheme {
+    /*ShopXpressTheme {
 
         HomeView(
             products = products,
             trends = trends,
-            navController = navController,
+            *//*navController = navController,*//*
             onSearch = {}
         )
         
-    }
+    }*/
 
 }

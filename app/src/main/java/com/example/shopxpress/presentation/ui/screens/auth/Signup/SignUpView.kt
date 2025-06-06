@@ -22,6 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.shopxpress.R
+import com.example.shopxpress.presentation.navigation.DefaultRootComponent
+import com.example.shopxpress.presentation.navigation.component.SignUpComponent
 import com.example.shopxpress.presentation.ui.components.AuthTextField
 import com.example.shopxpress.presentation.ui.components.DefaultButton
 import com.example.shopxpress.presentation.ui.components.DefaultNavBar
@@ -36,7 +38,8 @@ import com.google.accompanist.insets.ProvideWindowInsets
 fun SignUpView(
     signViewModel: SignUpViewModel = viewModel(),
     navigationVerification: () -> Unit,
-    toLogin: () -> Unit
+    toLogin: () -> Unit,
+    component: SignUpComponent
 ) {
 
     val state by signViewModel.state.collectAsState()
@@ -50,7 +53,8 @@ fun SignUpView(
 
         DefaultNavBar(
             image = R.drawable.icon_close,
-            text = "Create Account"
+            text = "Create Account",
+            click = component::toBack
         )
         
         Spacer(modifier = Modifier.height(32.dp))
@@ -149,7 +153,7 @@ fun SignUpView(
                 .fillMaxWidth(),
             onclick = {
                 if(state.isButtonEnabled) {
-                    navigationVerification()
+                    component.toVerify()
                 }
             },
             text = "Create Account"
@@ -171,7 +175,7 @@ fun SignUpView(
                 style = ShopXpressTheme.typography.main_text.bold,
                 color = ShopXpressTheme.colors.primary,
                 modifier = Modifier
-                    .clickable { toLogin() },
+                    .clickable (onClick = component::toVerify),
                 textDecoration = TextDecoration.Underline
             )
 
@@ -184,9 +188,8 @@ fun SignUpView(
 @Composable
 @Preview(showBackground = true)
 private fun SignUpPreview() {
-    
+/*
     ShopXpressTheme{
-        SignUpView(signViewModel = SignUpViewModel(),{}, {})
-    }
-    
+        SignUpView(signViewModel = SignUpViewModel(),{}, {}, object : DefaultRootComponent.SignUpComponent)
+    }*/
 }

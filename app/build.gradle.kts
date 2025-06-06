@@ -86,4 +86,7 @@ dependencies {
     implementation ("com.google.accompanist:accompanist-insets:0.28.0")
 
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
+
+    implementation("com.arkivanov.decompose:decompose:2.2.0")
+    implementation("com.arkivanov.decompose:extensions-compose-jetbrains:2.2.0")
 }

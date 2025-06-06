@@ -1,5 +1,6 @@
 package com.example.shopxpress.presentation.navigation.bottomNavigation
 
+import android.graphics.Bitmap.Config
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -32,57 +33,52 @@ import com.example.shopxpress.R
 import com.example.shopxpress.presentation.navigation.Screens
 import com.example.shopxpress.presentation.navigation.bottomNavigation.ui.BottomData
 import com.example.shopxpress.presentation.navigation.bottomNavigation.ui.BottomNavigationViewModel
+import com.example.shopxpress.presentation.navigation.component.RootComponent
+import com.example.shopxpress.presentation.navigation.component.ScreenConfig
 import com.example.shopxpress.presentation.ui.screens.main.home.home.ui.HomeViewModel
 import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
 
 @Composable
 fun BottomNavigation(
+    current: ScreenConfig,
+    onTabSelected: (ScreenConfig) -> Unit,
     viewModel: BottomNavigationViewModel = viewModel(),
-    navController: NavController,
     activeColor: Color = ShopXpressTheme.colors.primary,
     inActiveColor: Color = ShopXpressTheme.colors.text_40
 ) {
-
     val items = viewModel.items
 
-    var selectedItemIndex by rememberSaveable {
-        mutableStateOf(0)
-    }
+    val configByIndex = listOf(
+        ScreenConfig.HomeScreen,
+        ScreenConfig.CategoryScreen,
+        ScreenConfig.ProfileScreen,
+        ScreenConfig.CartScreen
+    )
 
-    NavigationBar(
-        containerColor = ShopXpressTheme.colors.bcg_0
-    ) {
+    val selectedIndex = configByIndex.indexOfFirst { it == current }
+
+    NavigationBar(containerColor = ShopXpressTheme.colors.bcg_0) {
         items.forEachIndexed { index, item ->
+            val isSelected = index == selectedIndex
 
             NavigationBarItem(
-                selected = selectedItemIndex == index,
+                selected = isSelected,
                 onClick = {
-                    selectedItemIndex = index
-
-                    when(index) {
-                        0 -> navController.navigate(Screens.HomeView.route)
-                        1 -> navController.navigate(Screens.CategoryView.route)
-                        2 -> navController.navigate(Screens.ProfileView.route)
-                        3 -> navController.navigate(Screens.CartView.route)
+                    if (!isSelected) {
+                        onTabSelected(configByIndex[index])
                     }
                 },
                 icon = {
-
                     Column(
                         modifier = Modifier.fillMaxHeight(),
-
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-
                         Image(
                             painter = painterResource(
-                            id = if(selectedItemIndex == index)item.selectedImage
-                                else {
-                                    item.unSelectedImage
-                            }
+                                id = if (isSelected) item.selectedImage else item.unSelectedImage
                             ),
-                            contentDescription = "bottom_navigation_item",
+                            contentDescription = "bottom_navigation_item"
                         )
 
                         Spacer(modifier = Modifier.height(17.dp))
@@ -90,13 +86,10 @@ fun BottomNavigation(
                         Text(
                             text = item.title,
                             style = ShopXpressTheme.typography.minor_text.extraBold,
-                            color = if(selectedItemIndex == index) activeColor else inActiveColor
+                            color = if (isSelected) activeColor else inActiveColor
                         )
-
                     }
-
                 },
-
                 colors = NavigationBarItemDefaults.colors(
                     indicatorColor = Color.White
                 )
@@ -104,6 +97,7 @@ fun BottomNavigation(
         }
     }
 }
+
 
 @Composable
 @Preview
@@ -115,6 +109,6 @@ private fun BottomNavigationPreview() {
 
 
     ShopXpressTheme {
-        BottomNavigation(viewModel, navController)
+        /*BottomNavigation(viewModel, navController)*/
     }
 }

@@ -3,8 +3,10 @@ package com.example.shopxpress.presentation.ui.style
 import android.os.Build
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
@@ -13,6 +15,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Composition
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.example.shopxpress.presentation.ui.style.color.LocalColorMainError
 import com.example.shopxpress.presentation.ui.style.color.ShopXpressColors
@@ -37,8 +41,9 @@ fun ShopXpressTheme(
         LocalColorMainError provides palette,
         LocalShopPressTypography provides LocalShopXpres,
         LocalIndication provides rippleIndication,
-        content = content
-    )
+    ) {
+        content()
+    }
 
 }
 

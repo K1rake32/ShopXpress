@@ -42,7 +42,7 @@ import com.example.shopxpress.presentation.ui.style.string.Strings
 
 @Composable
 fun CartView(
-    cartViewModel: CartViewModel
+    cartViewModel: CartViewModel,
 ) {
 
     val carts = cartViewModel.cart
@@ -104,7 +104,7 @@ fun CartView(
                     text = "",
                     onValueChange = {},
                     modifier = Modifier
-                        .width(260.dp)
+                        .width(230.dp)
                 )
 
                 OutlinedDefaultButton(

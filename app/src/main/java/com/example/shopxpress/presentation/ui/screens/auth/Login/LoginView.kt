@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.shopxpress.R
+import com.example.shopxpress.presentation.navigation.component.DefaultLoginComponent
 import com.example.shopxpress.presentation.ui.components.AuthTextField
 import com.example.shopxpress.presentation.ui.components.DefaultButton
 import com.example.shopxpress.presentation.ui.components.DefaultNavBar
@@ -32,8 +33,9 @@ import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
 @Composable
 fun LoginView(
     loginViewModel: LoginViewModel = viewModel(),
-    toHome: () -> Unit,
-    toSignUp: () -> Unit
+    /*toHome: () -> Unit,
+    toSignUp: () -> Unit*/
+    component: DefaultLoginComponent
 ) {
 
     val state by loginViewModel.state.collectAsState()
@@ -47,7 +49,8 @@ fun LoginView(
 
         DefaultNavBar(
             image = R.drawable.icon_close,
-            text = "Welcome back"
+            text = "Welcome back",
+            click = component::toBack
         )
 
         Spacer(modifier = Modifier.height(32.dp))
@@ -130,7 +133,7 @@ fun LoginView(
                 .fillMaxWidth(),
             onclick = {
                 if(state.isButtonEnabled) {
-                    toHome()
+                    component.toHome()
                 }
             },
             text = "Log In"
@@ -153,7 +156,7 @@ fun LoginView(
                 style = ShopXpressTheme.typography.main_text.bold,
                 color = ShopXpressTheme.colors.primary,
                 modifier = Modifier
-                    .clickable { toSignUp() },
+                    .clickable (onClick = component::toSignUp),
                 textDecoration = TextDecoration.Underline
             )
 
@@ -168,7 +171,7 @@ fun LoginView(
 private fun LoginViewPreview() {
 
     ShopXpressTheme {
-        LoginView(toHome = {}, toSignUp = {})
+        /*LoginView(toHome = {}, toSignUp = {})*/
     }
 
 }

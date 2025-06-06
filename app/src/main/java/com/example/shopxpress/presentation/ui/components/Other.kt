@@ -2,6 +2,7 @@ package com.example.shopxpress.presentation.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,7 +31,8 @@ fun DefaultNavBar(
     background: Color = ShopXpressTheme.colors.bcg_0,
     style: TextStyle = ShopXpressTheme.typography.navigation_text.extraBold,
     color: Color = ShopXpressTheme.colors.text_100,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    click: () -> Unit
 ) {
 
     Box(
@@ -52,7 +54,9 @@ fun DefaultNavBar(
 
             Icon(
                 painter = painterResource(id = image),
-                contentDescription = "close/back"
+                contentDescription = "close/back",
+                modifier = Modifier
+                    .clickable { click() }
             )
 
             Text(
@@ -115,6 +119,59 @@ fun MainNavBar(
 }
 
 @Composable
+fun WishListNavBar(
+    label: String,
+    style: TextStyle = ShopXpressTheme.typography.main_text.bold,
+    color: Color = ShopXpressTheme.colors.text_80,
+    startImage: Int,
+    endImage: Int,
+    modifier: Modifier = Modifier
+) {
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+        Image(
+            painter = painterResource(id = R.drawable.icon_back),
+            contentDescription = "back"
+        )
+
+        Text(
+            text = label,
+            style = style,
+            color = color
+        )
+
+        Row(
+            modifier = Modifier,
+
+            horizontalArrangement = Arrangement.spacedBy(20.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Icon(
+                painter = painterResource(id = startImage),
+                contentDescription = "$startImage"
+            )
+
+            Icon(
+                painter = painterResource(id = endImage),
+                contentDescription = "$endImage"
+            )
+
+        }
+
+    }
+
+}
+
+
+@Composable
 @Preview(showBackground = true)
 private fun OtherPreview() {
 
@@ -123,7 +180,12 @@ private fun OtherPreview() {
 
             DefaultNavBar(
                 image = R.drawable.icon_close,
-                text = "Create Account"
+                text = "Create Account",
+                click = {}
+            )
+
+            MainNavBar(
+                text = "qwe"
             )
 
         }

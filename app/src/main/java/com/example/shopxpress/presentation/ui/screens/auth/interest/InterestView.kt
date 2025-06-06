@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.shopxpress.R
+import com.example.shopxpress.presentation.navigation.component.DefaultInterestComponent
 import com.example.shopxpress.presentation.ui.components.DefaultButton
 import com.example.shopxpress.presentation.ui.components.DefaultNavBar
 import com.example.shopxpress.presentation.ui.components.TextBackButton
@@ -27,7 +28,8 @@ import com.example.shopxpress.presentation.ui.style.ShopXpressTheme
 
 @Composable
 fun InterestView(
-    toHome: () -> Unit
+    /*toHome: () -> Unit,*/
+    component: DefaultInterestComponent
 ) {
 
     Column(
@@ -40,7 +42,8 @@ fun InterestView(
 
         DefaultNavBar(
             image = R.drawable.icon_close,
-            text = "Select Interests"
+            text = "Select Interests",
+            click = component::toBack
         )
 
         Spacer(modifier = Modifier.height(23.dp))
@@ -87,7 +90,7 @@ fun InterestView(
             )
 
             DefaultButton(
-                onclick = {toHome()},
+                onclick = component::toHome,
                 text = "Submit",
                 modifier = Modifier
                     .weight(0.5f)
@@ -105,7 +108,7 @@ fun InterestView(
 private fun InterestViewPreview() {
 
     ShopXpressTheme {
-        InterestView({})
+        /*InterestView({})*/
     }
 
 }
